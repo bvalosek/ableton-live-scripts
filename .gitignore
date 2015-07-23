@@ -4,6 +4,7 @@
 # but not our stuff
 !bvalosek*
 !README.md
+!HISTORY.md
 
 # and not directories
 !.gitignore
