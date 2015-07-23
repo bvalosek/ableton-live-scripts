@@ -58,7 +58,13 @@ loaded. Press the DUMP button in the MPK249 row (see above picture). This will
 
 #### Mapping
 
-...
+The controls work as following:
+
+|            | Normal       | Shift (REC button)     |
+|------------|--------------|------------------------|
+| Encoders A | Track pan    | Track send amount      |
+| Faders A   | Track volume | Track volume           |
+| Buttons A  | Track select | Track arm (and select) |
 
 ### MIDI Fighter Twister
 
