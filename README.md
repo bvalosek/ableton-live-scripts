@@ -36,6 +36,11 @@ follows:
 Setting Control Surface to None for MPK249 (Port A) prevents the default MPK
 mapping from loading.
 
+In order for the MPK249 script to work, a custom preset in location 25 must be
+loaded. Press the DUMP button in the MPK249 row (see above picture). This will
+**overwrite** the current contents of preset 25 with a new preset called
+`bvalosek` that is to be used with this script.
+
 ## Controllers
 
 ### MPK249
@@ -47,11 +52,13 @@ mapping from loading.
 * Record button functions as SHIFT button to alter role of encoders, faders,
   buttons, and transport section
 * Keys on MIDI Channel 1, Pads on MIDI Channel 2 (with colors corresponding to
-  GM drum instrument types). Other pad banks are not used
+  GM drum instrument types). Only BANK A of the pads is used.
 * Make sure to use the corresponding preset `25: bvalosek`, loaded via the DUMP
   button in Ableton Live (See Setup instructions above)
 
 #### Mapping
+
+...
 
 ### MIDI Fighter Twister
 
@@ -63,6 +70,8 @@ mapping from loading.
   sensitivity)
 
 #### Mapping
+
+...
 
 ## License
 
