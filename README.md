@@ -17,8 +17,17 @@ This keeps each controller associated with a specific role when jamming.
 Copy the entire repo contents into the MIDI Remote Scripts directory for
 Ableton Live (see the [official
 documentation](https://www.ableton.com/en/help/article/install-third-party-remote-script/)).
+
 Alternatively, you could clone this repo right into the MIDI Remote Scripts
 directory.
+
+```bash
+# in your MIDI Remote Scripts directory
+$ git init
+$ git remote add origin git@github.com:bvalosek/ableton-live-scripts.git
+$ git fetch
+$ git checkout -t origin/master
+```
 
 If you aren't familiar with git and just want a download, go to the [latest
 releases](https://github.com/bvalosek/ableton-live-scripts/releases) and
