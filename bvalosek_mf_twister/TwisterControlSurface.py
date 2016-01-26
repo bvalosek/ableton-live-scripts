@@ -3,70 +3,47 @@ import Live
 
 from _Framework.ControlSurface import ControlSurface
 from _Framework.SliderElement import SliderElement
+from _Framework.ButtonElement import ButtonElement
 from _Framework.InputControlElement import *
 from _Framework.Layer import Layer
-from _Framework.ButtonElement import ButtonElement
 from _Framework.ButtonMatrixElement import ButtonMatrixElement
 
-from TwisterDeviceComponent import TwisterDeviceComponent
+# our shit
+from TwisterColors import TwisterColors
+from Twister16ParamDevice import Twister16ParamDevice
 
+# twister MIDI addresses
 from consts import *
 
 def to_matrix(buttons):
     return ButtonMatrixElement(rows = [buttons])
 
-class TwisterControlSurface(ControlSurface):
-    """
-    DJ Tech Tools MIDI Fighter Twister Control Script
-    """
+class TwisterControlSurface2(ControlSurface):
+    """DJ Tech Tools MIDI Fighter Twister Control Script"""
 
     def __init__(self, c_instance):
         ControlSurface.__init__(self, c_instance)
-
         with self.component_guard():
             self._setup_controls()
-            self._setup_device()
-            self._setup_sibling_devices()
+            self._setup_bank_1()
+            self.set_device_component(self.device16)
 
-    def _setup_sibling_devices(self):
-        """
-        Second bank will be 4 mini device components
-        """
-        self.sibling_devices = [TwisterDeviceComponent() for n in range(4)]
-        for n, comp in enumerate(self.sibling_devices):
-            a = n * 4
-            b = a + 4
-            layer = Layer(
-                parameter_controls = to_matrix(self.knobs[0][a:b]),
-                parameter_buttons  = to_matrix(self.buttons[0][a:b]),)
-            comp.layer = layer
-            comp.on_off_index = 0
-            comp.hide_sibling_devices_index = 1
 
-        self.device.set_sibling_devices(self.sibling_devices)
-        self.device.set_sibling_devices_enabled(False)
-
-    def _setup_device(self):
+    def _setup_bank_1(self):
+        """Bank one (main mode) will control 16 parameters (8 macro +
+        hueristics) and other basic device controls
         """
-        First bank as chain mixer + macro knobs
-        """
-        self.device_layer = Layer(
-            chain_volume_sliders = to_matrix(self.knobs[0][:8]),
-            chain_select_buttons = to_matrix(self.buttons[0][:8]),
-            parameter_controls   = to_matrix(self.knobs[0][8:]),
-            parameter_buttons    = to_matrix(self.buttons[0][8:]),)
-        self.device = TwisterDeviceComponent()
-        self.device.layer = self.device_layer
-        self.device.on_off_index = 0
-        self.device.show_sibling_devices_index = 1
+        self.bank_1_layer = Layer(
+            parameter_controls = to_matrix(self.knobs[0][:16]),
+            parameter_buttons = to_matrix(self.buttons[0][:16]))
+        self.device16 = Twister16ParamDevice()
+        self.device16.layer = self.bank_1_layer
 
-        # Blue hand
-        self.set_device_component(self.device)
+        # TODO: remove
+        self.device16.log = self.log_message
 
     def _setup_controls(self):
-        """ Create the instances of the physical controls for the Twister """
-
-        # 2D array for bank -> 16x
+        """Create the instances of the physical controls for the Twister"""
         self.knobs = []
         self.buttons = []
 
@@ -84,4 +61,6 @@ class TwisterControlSurface(ControlSurface):
                 buttons.append(button)
             self.knobs.append(knobs)
             self.buttons.append(buttons)
+
+
 
