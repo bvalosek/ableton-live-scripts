@@ -5,8 +5,9 @@ from math import ceil
 
 ON_COLOR = 45
 OFF_COLOR = 85
-BANK_COLOR = 120
+BANK_COLOR = 1
 BANK_ACTIVE_COLOR = 65
+BANK_NA_COLOR = 20
 
 class Twister16ParamDevice(DeviceComponent):
     """Control 16 parameters at a time on the twister, using the buttons to
@@ -69,6 +70,11 @@ class Twister16ParamDevice(DeviceComponent):
 
         # remove param mappings (from original fn)
         self._release_parameters(self._parameter_controls[len(params):])
+
+        # send colors to show how many banks we've got
+        colors = [None] + [None] * 7 + [BANK_COLOR] * bank_count + [BANK_NA_COLOR] * (8 - bank_count)
+        colors[8 + self.active_bank] = BANK_ACTIVE_COLOR
+        self.send_colors(colors)
 
     def _bank_count(self):
         """Total number of banks of 16 params"""
