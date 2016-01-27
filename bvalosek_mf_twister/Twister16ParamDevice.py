@@ -42,9 +42,12 @@ class Twister16ParamDevice(DeviceComponent):
     @subject_slot('value')
     def _on_on_off_change(self):
         if not self._on_off_parameter(): return
+        if not self.is_enabled(): return
 
         is_on = self._on_off_parameter().value > 0.5
-        self.send_colors([ON_COLOR if is_on else OFF_COLOR] * 8)
+        colors = [ON_COLOR if is_on else OFF_COLOR] * 8
+        colors[2] = colors[3] = None
+        self.send_colors(colors)
 
     def _assign_parameters(self):
         """Override how parameters get assigned to take advatage of 16 knobs
@@ -52,6 +55,7 @@ class Twister16ParamDevice(DeviceComponent):
         We have to map the parameter controls to the parameters from our banks
         and UNMAP anything not legit
         """
+        if not self.is_enabled(): return
         params = self._get_all_params()
         bank_count = self._bank_count()
 
@@ -66,13 +70,13 @@ class Twister16ParamDevice(DeviceComponent):
 
         # blank the difference to clean missing params
         for c in self._parameter_controls[len(params):]:
-            c.send_value(0, force = True)
+            if c: c.send_value(0, force = True)
 
         # remove param mappings (from original fn)
         self._release_parameters(self._parameter_controls[len(params):])
 
         # send colors to show how many banks we've got
-        colors = [None] + [None] * 7 + [BANK_COLOR] * bank_count + [BANK_NA_COLOR] * (8 - bank_count)
+        colors = [None] * 8 + [BANK_COLOR] * bank_count + [BANK_NA_COLOR] * (8 - bank_count)
         colors[8 + self.active_bank] = BANK_ACTIVE_COLOR
         self.send_colors(colors)
 

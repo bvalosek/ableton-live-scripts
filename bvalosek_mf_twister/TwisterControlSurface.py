@@ -7,6 +7,7 @@ from _Framework.ButtonElement import ButtonElement
 from _Framework.InputControlElement import *
 from _Framework.Layer import Layer
 from _Framework.ButtonMatrixElement import ButtonMatrixElement
+from _Framework.SubjectSlot import subject_slot_group
 
 # our shit
 from Twister16ParamDevice import Twister16ParamDevice
@@ -28,7 +29,6 @@ class TwisterControlSurface(ControlSurface):
             self._setup_bank_1()
             self.set_device_component(self.device16)
 
-
     def _setup_bank_1(self):
         """Bank one (main mode) will control 16 parameters (8 macro +
         hueristics) and other basic device controls
@@ -41,6 +41,12 @@ class TwisterControlSurface(ControlSurface):
 
         # TODO: remove
         self.device16.log = self.log_message
+
+    @subject_slot_group('value')
+    def _on_button_press(self, value, button):
+        """A button was pressed"""
+        if not value: return
+        index = [t for t in self.buttons[0]].index(button)
 
     def _setup_controls(self):
         """Create the instances of the physical controls for the Twister"""
@@ -62,5 +68,6 @@ class TwisterControlSurface(ControlSurface):
             self.knobs.append(knobs)
             self.buttons.append(buttons)
 
-
+        # listen to all buttons
+        self._on_button_press.replace_subjects(to_matrix(self.buttons[0][:16]))
 
