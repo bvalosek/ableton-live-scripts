@@ -1,7 +1,7 @@
 # from TwisterControlSurface import TwisterControlSurface
-from TwisterControlSurface2 import TwisterControlSurface2
+from TwisterControlSurface import TwisterControlSurface
 
 def create_instance(c_instance):
-    return TwisterControlSurface2(c_instance)
+    return TwisterControlSurface(c_instance)
 
 

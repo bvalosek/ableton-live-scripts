@@ -9,8 +9,8 @@ from _Framework.Layer import Layer
 from _Framework.ButtonMatrixElement import ButtonMatrixElement
 
 # our shit
-from TwisterColors import TwisterColors
 from Twister16ParamDevice import Twister16ParamDevice
+from Twister4UpDevice import Twister4UpDevice
 
 # twister MIDI addresses
 from consts import *
@@ -18,7 +18,7 @@ from consts import *
 def to_matrix(buttons):
     return ButtonMatrixElement(rows = [buttons])
 
-class TwisterControlSurface2(ControlSurface):
+class TwisterControlSurface(ControlSurface):
     """DJ Tech Tools MIDI Fighter Twister Control Script"""
 
     def __init__(self, c_instance):
