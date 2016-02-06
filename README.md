@@ -3,6 +3,8 @@
 Performance-oriented custom controller scripts for the Akai MPK249, MIDI
 Fighter Twister, and Novation Launchpad.
 
+Testing and working with Ableton 9.6.
+
 ## Overview
 
 These mappings were built specifically for how I use my gear, not for having
