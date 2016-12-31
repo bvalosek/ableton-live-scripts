@@ -1,73 +1,112 @@
-from __future__ import with_statement
-import Live
-
 from _Framework.ControlSurface import ControlSurface
-from _Framework.SliderElement import SliderElement
 from _Framework.ButtonElement import ButtonElement
-from _Framework.InputControlElement import *
-from _Framework.Layer import Layer
+from _Framework.InputControlElement import MIDI_CC_TYPE
+from _Framework.SubjectSlot import subject_slot, subject_slot_group
 from _Framework.ButtonMatrixElement import ButtonMatrixElement
-from _Framework.SubjectSlot import subject_slot_group
+from _Framework.Layer import Layer
+from _Framework.ModesComponent import ModesComponent, LayerMode
 
-# our shit
-from Twister16ParamDevice import Twister16ParamDevice
-from Twister4UpDevice import Twister4UpDevice
-
-# twister MIDI addresses
 from consts import *
+from Colors import *
+from SkinDefault import make_default_skin
+from DeviceComponentEx import DeviceComponentEx
+from SendsComponent import SendsComponent
+from SliderElementEx import SliderElementEx
 
 def to_matrix(buttons):
     return ButtonMatrixElement(rows = [buttons])
 
 class TwisterControlSurface(ControlSurface):
-    """DJ Tech Tools MIDI Fighter Twister Control Script"""
 
     def __init__(self, c_instance):
         ControlSurface.__init__(self, c_instance)
+
+        self._handle_track_change.subject = self.song().view
+
         with self.component_guard():
+            self._skin = make_default_skin()
             self._setup_controls()
-            self._setup_bank_1()
-            self.set_device_component(self.device16)
+            self._setup_device()
+            self._setup_sends()
+            self._setup_modes()
+            self._handle_track_change()
 
-    def _setup_bank_1(self):
-        """Bank one (main mode) will control 16 parameters (8 macro +
-        hueristics) and other basic device controls
-        """
-        self.bank_1_layer = Layer(
-            parameter_controls = to_matrix(self.knobs[0][:16]),
-            parameter_buttons = to_matrix(self.buttons[0][:16]))
-        self.device16 = Twister16ParamDevice()
-        self.device16.layer = self.bank_1_layer
+    @subject_slot('selected_track')
+    def _handle_track_change(self):
+        track = self.song().view.selected_track
+        self._select_device_on_track(track)
 
-        # TODO: remove
-        self.device16.log = self.log_message
+        # only change sends if the device isnt locked
+        if not self._device._locked_to_device:
+            self._sends.set_track(track)
 
-    @subject_slot_group('value')
-    def _on_button_press(self, value, button):
-        """A button was pressed"""
-        if not value: return
-        index = [t for t in self.buttons[0]].index(button)
+    def _select_device_on_track(self, track):
+        if not track or not len(track.devices):
+            return
+        device = track.devices[0]
+
+        # if its a drum rack without macros, try to set the device to chain
+        # instead in order to have the focus be on the selected / last played
+        # pad's chain
+        rack = device.can_have_drum_pads
+        if rack and not device.has_macro_mappings and len(device.chains) > 0:
+            chain = device.view.selected_chain or device.chains[0]
+            if len(chain.devices):
+                device = chain.devices[0]
+        self.song().view.select_device(device)
+
+    def _setup_device(self):
+        self._device = DeviceComponentEx()
+        self._device.log_message = self.log_message
+        self.set_device_component(self._device)
+
+    def _setup_sends(self):
+        self._sends = SendsComponent()
 
     def _setup_controls(self):
-        """Create the instances of the physical controls for the Twister"""
-        self.knobs = []
-        self.buttons = []
+        self._knobs = []
+        self._buttons = []
+        for knob_index in range(16):
+            knob = SliderElementEx( 
+                    msg_type = MIDI_CC_TYPE, 
+                    channel = KNOB_CHANNEL, 
+                    identifier = knob_index)
+            button = ButtonElement(
+                    is_momentary = True, 
+                    msg_type = MIDI_CC_TYPE, 
+                    channel = BUTTON_CHANNEL, 
+                    identifier = knob_index, 
+                    skin = self._skin)
+            self._knobs.append(knob)
+            self._buttons.append(button)
 
-        for bank_index in range(KNOB_BANK_COUNT):
-            knobs = []
-            buttons = []
-            for knob_index in range(KNOBS_PER_BANK):
-                knob = SliderElement(
-                    MIDI_CC_TYPE, KNOB_CHANNEL,
-                    bank_index * KNOBS_PER_BANK + ENCODER_START + knob_index)
-                knobs.append(knob)
-                button = ButtonElement(
-                    True, MIDI_CC_TYPE, BUTTON_CHANNEL,
-                    bank_index * KNOBS_PER_BANK + ENCODER_START + knob_index)
-                buttons.append(button)
-            self.knobs.append(knobs)
-            self.buttons.append(buttons)
+    def _setup_modes(self):
+        self._modes = ModesComponent()
+        self._setup_main_mode()
+        self._setup_sixteen_param_mode()
+        self._modes.selected_mode = 'main_mode'
+        self._modes.layer = Layer(priority = 10,
+            main_mode_button = self._buttons[0],
+            sixteen_param_mode_button = self._buttons[1])
 
-        # listen to all buttons
-        self._on_button_press.replace_subjects(to_matrix(self.buttons[0][:16]))
+    def _setup_main_mode(self):
+        device_mode = LayerMode(self._device, Layer(
+            parameter_controls = to_matrix(self._knobs[0:8]),
+            parameter_lights = to_matrix(self._buttons[0:3] + self._buttons[4:8]),
+            lock_button = self._buttons[3]))
+        sends_mode = LayerMode(self._sends, Layer(
+            volume_control = self._knobs[15],
+            volume_light = self._buttons[15],
+            send_lights = to_matrix(self._buttons[8:15]),
+            send_controls = to_matrix(self._knobs[8:14])))
+        self._modes.add_mode('main_mode', [device_mode, sends_mode])
+
+    def _setup_sixteen_param_mode(self):
+        device_mode = LayerMode(self._device, Layer(
+            parameter_controls = to_matrix(self._knobs),
+            parameter_lights = to_matrix(self._buttons[0:3] + [self._buttons[4], self._buttons[7]] + self._buttons[8:]),
+            bank_prev_button = self._buttons[5],
+            bank_next_button = self._buttons[6],
+            lock_button = self._buttons[3]))
+        self._modes.add_mode('sixteen_param_mode', device_mode)
 
