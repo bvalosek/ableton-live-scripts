@@ -36,10 +36,6 @@ follows:
 
 > TODO: Image
 
-## Controllers
-
-### MIDI Fighter Twister
-
 ## License
 
 MIT
