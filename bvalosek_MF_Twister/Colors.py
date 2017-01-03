@@ -11,7 +11,7 @@ class ColorEx(Color):
         self._draw_animation(interface, 0)
 
     def _draw_animation(self, interface, value):
-        interface.send_value(value, channel = ANIMATION_CHANNEL, force = True)
+        interface.send_value(value, channel = 2, force = True)
         pass
 
 class AnimatedColor(ColorEx):

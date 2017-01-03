@@ -4,21 +4,22 @@ from _Framework.Skin import Skin
 from Colors import *
 
 class Colors:
+    class Background:
+        Default = ColorEx(Rgb.BLUE)
+        Device = ColorEx(Rgb.BLUE)
+        Sends = ColorEx(Rgb.ORANGE)
+        Volume = ColorEx(Rgb.PINK)
+
     class DefaultButton:
         On = ColorEx(Rgb.GREEN)
         Off = ColorEx(Rgb.RED)
         Disabled = ColorEx(Rgb.OFF)
 
     class Device:
-        Background = ColorEx(Rgb.BLUE)
         NotLocked = ColorEx(Rgb.GREEN)
         Locked = Strobe(Rgb.PURPLE, animation = 5)
         CanBank = Pulse(Rgb.TEAL, animation = 5)
         CantBank = ColorEx(Rgb.TEAL)
-
-    class Mixer:
-        SendBackground = ColorEx(Rgb.ORANGE)
-        VolumeBackground = ColorEx(Rgb.PINK)
 
 def make_default_skin():
     return Skin(Colors)
