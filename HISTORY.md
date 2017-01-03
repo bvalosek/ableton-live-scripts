@@ -1,5 +1,12 @@
 # Change History
 
+## v2.1.0 (2017-01-02)
+
+* Added Alesis VI 49 script
+  * Knobs 1-8 control current device parameters
+  * Knobs 9-12 control selected track sends
+* README updates
+
 ## v2.0.0 (2017-01-02)
 
 * New approach / redesign based on usage over the last year+
