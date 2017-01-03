@@ -5,6 +5,7 @@ from _Framework.SubjectSlot import subject_slot, subject_slot_group
 from _Framework.ButtonMatrixElement import ButtonMatrixElement
 from _Framework.Layer import Layer
 from _Framework.ModesComponent import ModesComponent, LayerMode
+from _Framework.MixerComponent import MixerComponent
 
 from consts import *
 from Colors import *
@@ -88,10 +89,12 @@ class TwisterControlSurface(ControlSurface):
         self._modes = ModesComponent()
         self._setup_main_mode()
         self._setup_sixteen_param_mode()
+        self._setup_mixer_mode()
         self._modes.selected_mode = 'main_mode'
         self._modes.layer = Layer(priority = 10,
             main_mode_button = self._buttons[12],
-            sixteen_param_mode_button = self._buttons[13])
+            sixteen_param_mode_button = self._buttons[13],
+            mixer_mode_button = self._buttons[14])
 
     def _setup_main_mode(self):
         device_mode = LayerMode(self._device, Layer(
@@ -100,7 +103,7 @@ class TwisterControlSurface(ControlSurface):
 
         sends_mode = LayerMode(self._sends, Layer(
             volume_control = self._knobs[15],
-            send_controls = to_matrix(self._knobs[8:14])))
+            send_controls = to_matrix(self._knobs[8:15])))
 
         colors = ['Background.Device'] * 8 + ['Background.Sends'] * 7 + ['Background.Volume']
         background = BackgroundComponent(colors, is_enabled = False)
@@ -125,4 +128,13 @@ class TwisterControlSurface(ControlSurface):
         self._modes.add_mode('sixteen_param_mode', [
             background,
             device_mode])
+
+    def _setup_mixer_mode(self):
+        mixer = MixerComponent(num_returns = 7, is_enabled = False)
+
+        strips = [ LayerMode(
+            mixer.return_strip(x),
+            Layer(select_button = self._buttons[x])) for x in range(7) ]
+
+        self._modes.add_mode('mixer_mode', [lambda: self._blank_lights(), mixer] + strips)
 

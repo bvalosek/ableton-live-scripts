@@ -22,7 +22,7 @@ class BackgroundComponent(ControlSurfaceComponent):
             for idx, c in enumerate(self._lights or []):
                 if not c:
                     continue
-                elif self._color_values and len(self._color_values) >= idx:
+                elif self._color_values and len(self._color_values) > idx:
                     c.set_light(self._color_values[idx])
                 elif self._repeat_color:
                     c.set_light(self._repeat_color)
