@@ -5,8 +5,6 @@
 !bvalosek*
 !README.md
 !HISTORY.md
-
-# and not directories
 !.gitignore
 
 # but do ignore compiled files

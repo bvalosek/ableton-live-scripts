@@ -8,12 +8,13 @@ My personal MIDI Remote Scripts for Ableton 9.7.
 
 ## Installation
 
-Copy the entire repo contents into the MIDI Remote Scripts directory for
-Ableton Live (see the [official
-documentation](https://www.ableton.com/en/help/article/install-third-party-remote-script/)).
+* Download a release from [latest releases](https://github.com/bvalosek/ableton-live-scripts/releases)
+  and extract the ZIP file
+* Copy the desired controller scripts into the MIDI Remote Scripts directory
+  for Ableton Live (see the [official documentation](https://www.ableton.com/en/help/article/install-third-party-remote-script/))
 
-Alternatively, you could clone this repo right into the MIDI Remote Scripts
-directory.
+Alternatively, if you are familiar with git, you could clone this repo right
+into the MIDI Remote Scripts directory:
 
 ```bash
 # in your MIDI Remote Scripts directory
@@ -23,18 +24,24 @@ $ git fetch
 $ git checkout -t origin/master
 ```
 
-If you aren't familiar with git and just want a download, go to the [latest
-releases](https://github.com/bvalosek/ableton-live-scripts/releases) and
-download a ZIP file and copy all contents into the MIDI Remote Scripts
-directory.
-
 ## Setup
 
 Once the scripts are installed via the above instructions, open Live and go to
-Preferences -> MIDI and set the Control Surface, Input, and Output sections as
-follows:
+Preferences -> Link / MIDI and set the Control Surface, Input, and Output
+sections for the corresponding controllers you are using.
 
-> TODO: Image
+For example, for the DJTT MIDI Fighter Twister:
+
+* Select `bvalosek MF Twister` for the Control Surface
+* Select `Midi Fighter Twister` for the input
+* Select `Midi Fighter Twister` for the output
+
+All of the Control Surface scripts in this repo will be prefixed with
+`bvalosek`.
+
+Selecting input/output `track`, `sync`, and `remote` are not required to get
+the custom scripts working, although you'll likely want to select some of these
+depending on how you're using your hardware.
 
 ## License
 
