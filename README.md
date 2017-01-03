@@ -13,13 +13,15 @@ My personal MIDI Remote Scripts for Ableton 9.
 
 * Download a release from [latest releases](https://github.com/bvalosek/ableton-live-scripts/releases)
   and extract the ZIP file
+    * Download [the latest release here](https://github.com/bvalosek/ableton-live-scripts/releases/latest)
 * Copy all directories prefixed with `bvalosek_` into the MIDI Remote Scripts
   directory for Ableton Live (see the [official documentation](https://www.ableton.com/en/help/article/install-third-party-remote-script/))
 * You may need to restart Ableton or at least reload your current Set to see
   the newly added scripts
 
-Alternatively, if you are familiar with git, you could clone this repo right
-into the MIDI Remote Scripts directory:
+Alternatively, if you are familiar with git and want to run the absolute latest
+(potentially unreleased) code, you could clone this repo right into the MIDI
+Remote Scripts directory:
 
 ```bash
 # in your MIDI Remote Scripts directory
