@@ -1,6 +1,8 @@
 # MIDI Remote Scripts for Ableton Live 9
 
-My personal MIDI Remote Scripts for Ableton 9.7+
+My personal MIDI Remote Scripts for Ableton 9.
+
+> Tested on Ableton Live 9.7.1
 
 ## Devices
 
