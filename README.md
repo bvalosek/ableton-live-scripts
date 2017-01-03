@@ -61,6 +61,10 @@ Consider adjusting the *Takeover Mode* in the Ableton Live Preference window to
 adjust how values are transitioned when the hardware knob is in a different
 position than the currently selected device
 
+#### MIDI Mapping
+
+* Knobs 1-12: Channel 1, CC 20-31
+
 ## License
 
 MIT
