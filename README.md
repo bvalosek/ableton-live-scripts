@@ -15,6 +15,8 @@ My personal MIDI Remote Scripts for Ableton 9.
   and extract the ZIP file
 * Copy all directories prefixed with `bvalosek_` into the MIDI Remote Scripts
   directory for Ableton Live (see the [official documentation](https://www.ableton.com/en/help/article/install-third-party-remote-script/))
+* You may need to restart Ableton or at least reload your current Set to see
+  the newly added scripts
 
 Alternatively, if you are familiar with git, you could clone this repo right
 into the MIDI Remote Scripts directory:
