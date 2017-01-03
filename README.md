@@ -12,8 +12,7 @@ My personal MIDI Remote Scripts for Ableton 9.
 ## Installation
 
 * Download a release from [latest releases](https://github.com/bvalosek/ableton-live-scripts/releases)
-  (select `Source code (zip)`) and extract the ZIP file
-    * Download [the most recent release here](https://github.com/bvalosek/ableton-live-scripts/releases/latest)
+  (most recent version [here](https://github.com/bvalosek/ableton-live-scripts/releases/latest))
 * Copy all directories prefixed with `bvalosek_` into the MIDI Remote Scripts
   directory for Ableton Live (see the [official documentation](https://www.ableton.com/en/help/article/install-third-party-remote-script/))
 * You may need to restart Ableton or at least reload your current Set to see
