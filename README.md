@@ -43,6 +43,14 @@ Selecting input/output `track`, `sync`, and `remote` are not required to get
 the custom scripts working, although you'll likely want to select some of these
 depending on how you're using your hardware.
 
+## Controllers
+
+Detailed information about each controller's customization
+
+### DJ TechTools MIDI Fighter Twister
+
+> TBW
+
 ## License
 
 MIT
