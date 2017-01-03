@@ -12,11 +12,6 @@ class DeviceComponentEx(DeviceComponent):
 
     def __init__(self, *a, **k):
         DeviceComponent.__init__(self, *a, **k)
-        self._parameter_lights = None
-
-    def set_parameter_lights(self, lights):
-        self._parameter_lights = lights
-        self.update()
 
     def _assign_parameters(self):
         DeviceComponent._assign_parameters(self)
@@ -27,16 +22,6 @@ class DeviceComponentEx(DeviceComponent):
                     control.connect_to(parameter)
                 else:
                     control.release_parameter()
-
-    def update(self):
-        DeviceComponent.update(self)
-        self._update_parameter_lights()
-
-    def _update_parameter_lights(self):
-        if self.is_enabled():
-            for c in self._parameter_lights or []:
-                if c != None:
-                    c.set_light('Device.Background')
 
     def _update_lock_button(self):
         if self.is_enabled() and self._lock_button != None:

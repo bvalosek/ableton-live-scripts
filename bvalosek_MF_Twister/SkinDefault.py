@@ -4,6 +4,11 @@ from _Framework.Skin import Skin
 from Colors import *
 
 class Colors:
+    class DefaultButton:
+        On = ColorEx(Rgb.GREEN)
+        Off = ColorEx(Rgb.RED)
+        Disabled = ColorEx(Rgb.OFF)
+
     class Device:
         Background = ColorEx(Rgb.BLUE)
         NotLocked = ColorEx(Rgb.GREEN)
@@ -17,4 +22,4 @@ class Colors:
 
 def make_default_skin():
     return Skin(Colors)
-        
+

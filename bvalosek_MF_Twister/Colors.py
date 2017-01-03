@@ -48,3 +48,4 @@ class Rgb:
     RED = 85
     PINK = 100
     PURPLE = 110
+

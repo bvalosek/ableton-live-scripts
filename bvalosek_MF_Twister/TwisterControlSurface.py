@@ -67,18 +67,22 @@ class TwisterControlSurface(ControlSurface):
         self._knobs = []
         self._buttons = []
         for knob_index in range(16):
-            knob = SliderElementEx( 
-                    msg_type = MIDI_CC_TYPE, 
-                    channel = KNOB_CHANNEL, 
+            knob = SliderElementEx(
+                    msg_type = MIDI_CC_TYPE,
+                    channel = KNOB_CHANNEL,
                     identifier = knob_index)
             button = ButtonElement(
-                    is_momentary = True, 
-                    msg_type = MIDI_CC_TYPE, 
-                    channel = BUTTON_CHANNEL, 
-                    identifier = knob_index, 
+                    is_momentary = True,
+                    msg_type = MIDI_CC_TYPE,
+                    channel = BUTTON_CHANNEL,
+                    identifier = knob_index,
                     skin = self._skin)
             self._knobs.append(knob)
             self._buttons.append(button)
+
+    def _blank_lights(self):
+        for c in self._buttons:
+            c.set_light('DefaultButton.Disabled')
 
     def _setup_modes(self):
         self._modes = ModesComponent()
@@ -92,21 +96,22 @@ class TwisterControlSurface(ControlSurface):
     def _setup_main_mode(self):
         device_mode = LayerMode(self._device, Layer(
             parameter_controls = to_matrix(self._knobs[0:8]),
-            parameter_lights = to_matrix(self._buttons[0:3] + self._buttons[4:8]),
             lock_button = self._buttons[3]))
         sends_mode = LayerMode(self._sends, Layer(
             volume_control = self._knobs[15],
-            volume_light = self._buttons[15],
-            send_lights = to_matrix(self._buttons[8:15]),
             send_controls = to_matrix(self._knobs[8:14])))
-        self._modes.add_mode('main_mode', [device_mode, sends_mode])
+        self._modes.add_mode('main_mode', [
+            lambda: self._blank_lights(),
+            device_mode,
+            sends_mode])
 
     def _setup_sixteen_param_mode(self):
         device_mode = LayerMode(self._device, Layer(
             parameter_controls = to_matrix(self._knobs),
-            parameter_lights = to_matrix(self._buttons[0:3] + [self._buttons[4], self._buttons[7]] + self._buttons[8:]),
             bank_prev_button = self._buttons[5],
             bank_next_button = self._buttons[6],
             lock_button = self._buttons[3]))
-        self._modes.add_mode('sixteen_param_mode', device_mode)
+        self._modes.add_mode('sixteen_param_mode', [
+            lambda: self._blank_lights(),
+            device_mode])
 
