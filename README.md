@@ -5,6 +5,7 @@ My personal MIDI Remote Scripts for Ableton 9.7.
 ## Devices
 
 * DJ TechTools MIDI Fighter Twister
+* Alesis VI 49 Keyboard
 
 ## Installation
 
@@ -50,6 +51,15 @@ Detailed information about each controller's customization
 ### DJ TechTools MIDI Fighter Twister
 
 > TBW
+
+### Alesis VI 49 Keyboard
+
+* Knobs 1-8 control the currently selected device
+* Knobs 9-12 control the first four sends of the selected track
+
+Consider adjusting the *Takeover Mode* in the Ableton Live Preference window to
+adjust how values are transitioned when the hardware knob is in a different
+position than the currently selected device
 
 ## License
 
