@@ -34,6 +34,11 @@ class DeviceComponentEx(DeviceComponent):
         if button:
             button.set_on_off_values('Device.Locked', 'Device.NotLocked')
 
+    def set_background_lights(self, lights):
+        for c in lights or []:
+            if c:
+                c.set_light('Background.Device')
+
     def set_bank_prev_button(self, button):
         super(DeviceComponentEx, self).set_bank_prev_button(button)
         if button:

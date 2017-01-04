@@ -33,7 +33,6 @@ class TwisterControlSurface(ControlSurface):
             self._setup_device()
             self._setup_strip()
             self._setup_modes()
-            self._blank_lights()
             self._handle_track_change()
 
     @subject_slot('selected_track')
@@ -85,12 +84,6 @@ class TwisterControlSurface(ControlSurface):
             self._knobs.append(knob)
             self._buttons.append(button)
 
-        self._buttons[12].states[True] = 'ModeButton.Main'
-
-    def _blank_lights(self):
-        for c in self._buttons:
-            c.set_light('DefaultButton.Off')
-
     def _setup_modes(self):
         self._modes = ModesComponent()
         self._setup_main_mode()
@@ -103,7 +96,9 @@ class TwisterControlSurface(ControlSurface):
             mixer_mode_button = self._buttons[14])
 
     def _setup_main_mode(self):
-        device_mode = LayerMode(self._device, Layer(
+        device_bg = Layer(priority = -10,
+            background_lights = to_matrix(self._buttons[0:8]))
+        device_mode = LayerMode(self._device, device_bg + Layer(
             parameter_controls = to_matrix(self._knobs[0:8]),
             lock_button = self._buttons[3]))
 
@@ -111,29 +106,18 @@ class TwisterControlSurface(ControlSurface):
             volume_control = self._knobs[15],
             send_controls = to_matrix(self._knobs[8:15])))
 
-        # colors = ['Background.Device'] * 8 + ['Background.Sends'] * 7 + ['Background.Volume']
-        # background = BackgroundComponent(colors, is_enabled = False)
-        # background.layer = Layer(priority = -10, lights = to_matrix(self._buttons))
-
-        self._modes.add_mode('main_mode', [
-            # background,
-            device_mode,
-            strip_mode])
+        self._modes.add_mode('main_mode', [ device_mode, strip_mode])
 
     def _setup_sixteen_param_mode(self):
-        device_mode = LayerMode(self._device, Layer(
+        device_bg = Layer(priority = -10,
+            background_lights = to_matrix(self._buttons))
+        device_mode = LayerMode(self._device, device_bg + Layer(
             parameter_controls = to_matrix(self._knobs),
             bank_prev_button = self._buttons[5],
             bank_next_button = self._buttons[6],
             lock_button = self._buttons[3]))
 
-        # colors = ['Background.Device'] * 16
-        # background = BackgroundComponent(colors, is_enabled = False)
-        # background.layer = Layer(priority = -10, lights = to_matrix(self._buttons))
-
-        self._modes.add_mode('sixteen_param_mode', [
-            # background,
-            device_mode])
+        self._modes.add_mode('sixteen_param_mode', device_mode)
 
     def _setup_mixer_mode(self):
         mixer = MixerComponent(num_returns = 7, is_enabled = False)
