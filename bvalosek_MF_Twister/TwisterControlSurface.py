@@ -1,5 +1,4 @@
 from _Framework.ButtonMatrixElement import ButtonMatrixElement
-from _Framework.ChannelStripComponent import ChannelStripComponent
 from _Framework.ControlSurface import ControlSurface
 from _Framework.InputControlElement import MIDI_CC_TYPE
 from _Framework.Layer import Layer
@@ -12,6 +11,7 @@ from Colors import *
 
 from ButtonElementEx import ButtonElementEx
 from DeviceComponentEx import DeviceComponentEx
+from MixerComponentEx import ChannelStripComponentEx
 from SendsComponent import SendsComponent
 from SkinDefault import make_default_skin
 from SliderElementEx import SliderElementEx
@@ -64,7 +64,7 @@ class TwisterControlSurface(ControlSurface):
         self._device_selection_follows_track_selection = True
 
     def _setup_strip(self):
-        self._strip = ChannelStripComponent()
+        self._strip = ChannelStripComponentEx()
 
     def _setup_controls(self):
         self._knobs = []
@@ -101,7 +101,10 @@ class TwisterControlSurface(ControlSurface):
             parameter_controls = to_matrix(self._knobs[0:8]),
             lock_button = self._buttons[3]))
 
-        strip_mode = LayerMode(self._strip, Layer(
+        strip_bg = Layer(priority = -10,
+            send_background_lights = to_matrix(self._buttons[8:15]),
+            volume_background_light = self._buttons[15])
+        strip_mode = LayerMode(self._strip, strip_bg + Layer(
             volume_control = self._knobs[15],
             send_controls = to_matrix(self._knobs[8:15])))
 

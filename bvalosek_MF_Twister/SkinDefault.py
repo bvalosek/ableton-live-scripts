@@ -8,7 +8,7 @@ class Colors:
         Default = ColorEx(Rgb.BLUE)
         Device = ColorEx(Rgb.BLUE)
         Sends = ColorEx(Rgb.ORANGE)
-        Volume = ColorEx(Rgb.PINK)
+        Volume = ColorEx(Rgb.RED)
 
     class ModeButton:
         Main = ColorEx(Rgb.BLUE)
