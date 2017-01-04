@@ -1,4 +1,3 @@
-from _Framework.ButtonElement import ButtonElement
 from _Framework.ButtonMatrixElement import ButtonMatrixElement
 from _Framework.ChannelStripComponent import ChannelStripComponent
 from _Framework.ControlSurface import ControlSurface
@@ -10,11 +9,13 @@ from _Framework.SubjectSlot import subject_slot, subject_slot_group
 
 from consts import *
 from Colors import *
-from SkinDefault import make_default_skin
+
+from BackgroundComponent import BackgroundComponent
+from ButtonElementEx import ButtonElementEx
 from DeviceComponentEx import DeviceComponentEx
 from SendsComponent import SendsComponent
+from SkinDefault import make_default_skin
 from SliderElementEx import SliderElementEx
-from BackgroundComponent import BackgroundComponent
 
 def to_matrix(buttons):
     return ButtonMatrixElement(rows = [buttons])
@@ -32,6 +33,7 @@ class TwisterControlSurface(ControlSurface):
             self._setup_device()
             self._setup_strip()
             self._setup_modes()
+            self._blank_lights()
             self._handle_track_change()
 
     @subject_slot('selected_track')
@@ -56,11 +58,12 @@ class TwisterControlSurface(ControlSurface):
             chain = device.view.selected_chain or device.chains[0]
             if len(chain.devices):
                 device = chain.devices[0]
-        self.song().view.select_device(device)
+        self._device.set_device(device)
 
     def _setup_device(self):
         self._device = DeviceComponentEx()
         self.set_device_component(self._device)
+        self._device_selection_follows_track_selection = True
 
     def _setup_strip(self):
         self._strip = ChannelStripComponent()
@@ -73,7 +76,7 @@ class TwisterControlSurface(ControlSurface):
                     msg_type = MIDI_CC_TYPE,
                     channel = KNOB_CHANNEL,
                     identifier = knob_index)
-            button = ButtonElement(
+            button = ButtonElementEx(
                     is_momentary = True,
                     msg_type = MIDI_CC_TYPE,
                     channel = BUTTON_CHANNEL,
@@ -82,9 +85,11 @@ class TwisterControlSurface(ControlSurface):
             self._knobs.append(knob)
             self._buttons.append(button)
 
+        self._buttons[12].states[True] = 'ModeButton.Main'
+
     def _blank_lights(self):
         for c in self._buttons:
-            c.set_light('DefaultButton.Disabled')
+            c.set_light('DefaultButton.Off')
 
     def _setup_modes(self):
         self._modes = ModesComponent()
@@ -106,12 +111,12 @@ class TwisterControlSurface(ControlSurface):
             volume_control = self._knobs[15],
             send_controls = to_matrix(self._knobs[8:15])))
 
-        colors = ['Background.Device'] * 8 + ['Background.Sends'] * 7 + ['Background.Volume']
-        background = BackgroundComponent(colors, is_enabled = False)
-        background.layer = Layer(priority = -10, lights = to_matrix(self._buttons))
+        # colors = ['Background.Device'] * 8 + ['Background.Sends'] * 7 + ['Background.Volume']
+        # background = BackgroundComponent(colors, is_enabled = False)
+        # background.layer = Layer(priority = -10, lights = to_matrix(self._buttons))
 
         self._modes.add_mode('main_mode', [
-            background,
+            # background,
             device_mode,
             strip_mode])
 
@@ -122,12 +127,12 @@ class TwisterControlSurface(ControlSurface):
             bank_next_button = self._buttons[6],
             lock_button = self._buttons[3]))
 
-        colors = ['Background.Device'] * 16
-        background = BackgroundComponent(colors, is_enabled = False)
-        background.layer = Layer(priority = -10, lights = to_matrix(self._buttons))
+        # colors = ['Background.Device'] * 16
+        # background = BackgroundComponent(colors, is_enabled = False)
+        # background.layer = Layer(priority = -10, lights = to_matrix(self._buttons))
 
         self._modes.add_mode('sixteen_param_mode', [
-            background,
+            # background,
             device_mode])
 
     def _setup_mixer_mode(self):
@@ -137,5 +142,5 @@ class TwisterControlSurface(ControlSurface):
             mixer.return_strip(x),
             Layer(select_button = self._buttons[x])) for x in range(7) ]
 
-        self._modes.add_mode('mixer_mode', [lambda: self._blank_lights(), mixer] + strips)
+        self._modes.add_mode('mixer_mode', strips)
 

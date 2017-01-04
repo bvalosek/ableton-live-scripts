@@ -29,3 +29,17 @@ class DeviceComponentEx(DeviceComponent):
                 bank = banks[next_index]
         return bank
 
+    def set_lock_button(self, button):
+        super(DeviceComponentEx, self).set_lock_button(button)
+        if button:
+            button.set_on_off_values('Device.Locked', 'Device.NotLocked')
+
+    def set_bank_prev_button(self, button):
+        super(DeviceComponentEx, self).set_bank_prev_button(button)
+        if button:
+            button.set_on_off_values('Device.CanBank', 'Device.CantBank')
+
+    def set_bank_next_button(self, button):
+        super(DeviceComponentEx, self).set_bank_next_button(button)
+        if button:
+            button.set_on_off_values('Device.CanBank', 'Device.CantBank')

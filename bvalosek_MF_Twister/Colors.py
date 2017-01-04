@@ -17,8 +17,6 @@ class Rgb:
 class Animation:
     NONE = 0
 
-    OFF = 17
-
     GATE_8_BEATS = 1
     GATE_4_BEATS = 2
     GATE_2_BEATS = 3
@@ -35,6 +33,15 @@ class Animation:
     PULSE_HALF_BEAT = 14
     PULSE_QUARTER_BEAT = 15
     PULSE_EIGHTH_BEAT = 16
+
+    RAINBOW = 127
+
+class Brightness:
+    OFF = 17
+    MIN = 18
+    LOW = 25
+    MID = 32
+    MAX = 47
 
 class ColorEx(Color):
     def __init__(self, midi_value = Rgb.BLUE, animation = Animation.NONE, *a, **k):

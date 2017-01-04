@@ -10,10 +10,13 @@ class Colors:
         Sends = ColorEx(Rgb.ORANGE)
         Volume = ColorEx(Rgb.PINK)
 
+    class ModeButton:
+        Main = ColorEx(Rgb.BLUE)
+
     class DefaultButton:
         On = ColorEx(Rgb.GREEN)
-        Off = ColorEx(Rgb.RED)
-        Disabled = ColorEx(Rgb.OFF)
+        Disabled = ColorEx(Rgb.GREEN, Brightness.LOW)
+        Off = ColorEx(Rgb.OFF, Brightness.OFF)
 
     class Device:
         NotLocked = ColorEx(Rgb.GREEN)
