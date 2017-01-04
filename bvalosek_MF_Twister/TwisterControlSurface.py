@@ -1,11 +1,12 @@
-from _Framework.ControlSurface import ControlSurface
 from _Framework.ButtonElement import ButtonElement
-from _Framework.InputControlElement import MIDI_CC_TYPE
-from _Framework.SubjectSlot import subject_slot, subject_slot_group
 from _Framework.ButtonMatrixElement import ButtonMatrixElement
+from _Framework.ChannelStripComponent import ChannelStripComponent
+from _Framework.ControlSurface import ControlSurface
+from _Framework.InputControlElement import MIDI_CC_TYPE
 from _Framework.Layer import Layer
-from _Framework.ModesComponent import ModesComponent, LayerMode
 from _Framework.MixerComponent import MixerComponent
+from _Framework.ModesComponent import ModesComponent, LayerMode
+from _Framework.SubjectSlot import subject_slot, subject_slot_group
 
 from consts import *
 from Colors import *
@@ -29,7 +30,7 @@ class TwisterControlSurface(ControlSurface):
             self._skin = make_default_skin()
             self._setup_controls()
             self._setup_device()
-            self._setup_sends()
+            self._setup_strip()
             self._setup_modes()
             self._handle_track_change()
 
@@ -40,7 +41,7 @@ class TwisterControlSurface(ControlSurface):
 
         # only change sends if the device isnt locked
         if not self._device._locked_to_device:
-            self._sends.set_track(track)
+            self._strip.set_track(track)
 
     def _select_device_on_track(self, track):
         if not track or not len(track.devices):
@@ -61,8 +62,8 @@ class TwisterControlSurface(ControlSurface):
         self._device = DeviceComponentEx()
         self.set_device_component(self._device)
 
-    def _setup_sends(self):
-        self._sends = SendsComponent()
+    def _setup_strip(self):
+        self._strip = ChannelStripComponent()
 
     def _setup_controls(self):
         self._knobs = []
@@ -101,7 +102,7 @@ class TwisterControlSurface(ControlSurface):
             parameter_controls = to_matrix(self._knobs[0:8]),
             lock_button = self._buttons[3]))
 
-        sends_mode = LayerMode(self._sends, Layer(
+        strip_mode = LayerMode(self._strip, Layer(
             volume_control = self._knobs[15],
             send_controls = to_matrix(self._knobs[8:15])))
 
@@ -112,7 +113,7 @@ class TwisterControlSurface(ControlSurface):
         self._modes.add_mode('main_mode', [
             background,
             device_mode,
-            sends_mode])
+            strip_mode])
 
     def _setup_sixteen_param_mode(self):
         device_mode = LayerMode(self._device, Layer(
