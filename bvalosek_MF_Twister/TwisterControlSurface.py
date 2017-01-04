@@ -90,23 +90,23 @@ class TwisterControlSurface(ControlSurface):
         self._setup_mixer_mode()
         self._modes.selected_mode = 'main_mode'
         self._modes.layer = Layer(priority = 10,
-            main_mode_button = self._buttons[12],
-            sixteen_param_mode_button = self._buttons[13],
-            mixer_mode_button = self._buttons[14])
+            main_mode_button = self._buttons[0],
+            sixteen_param_mode_button = self._buttons[1],
+            mixer_mode_button = self._buttons[2])
 
     def _setup_main_mode(self):
         device_bg = Layer(priority = -10,
-            background_lights = to_matrix(self._buttons[0:8]))
+            background_lights = to_matrix(self._buttons[8:]))
         device_mode = LayerMode(self._device, device_bg + Layer(
-            parameter_controls = to_matrix(self._knobs[0:8]),
-            lock_button = self._buttons[3]))
+            parameter_controls = to_matrix(self._knobs[8:]),
+            lock_button = self._buttons[11]))
 
         strip_bg = Layer(priority = -10,
-            send_background_lights = to_matrix(self._buttons[8:15]),
-            volume_background_light = self._buttons[15])
+            send_background_lights = to_matrix(self._buttons[0:8]),
+            volume_background_light = self._buttons[3])
         strip_mode = LayerMode(self._strip, strip_bg + Layer(
-            volume_control = self._knobs[15],
-            send_controls = to_matrix(self._knobs[8:15])))
+            volume_control = self._knobs[3],
+            send_controls = to_matrix(self._knobs[4:8])))
 
         self._modes.add_mode('main_mode', [ device_mode, strip_mode])
 

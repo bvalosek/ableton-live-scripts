@@ -12,7 +12,8 @@ class Rgb:
     ORANGE = 68
     RED = 85
     PINK = 100
-    PURPLE = 110
+    FUCHSIA = 111
+    PURPLE = 115
 
 class Animation:
     NONE = 0
