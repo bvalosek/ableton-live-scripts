@@ -10,7 +10,6 @@ from _Framework.SubjectSlot import subject_slot, subject_slot_group
 from consts import *
 from Colors import *
 
-from BackgroundComponent import BackgroundComponent
 from ButtonElementEx import ButtonElementEx
 from DeviceComponentEx import DeviceComponentEx
 from SendsComponent import SendsComponent
