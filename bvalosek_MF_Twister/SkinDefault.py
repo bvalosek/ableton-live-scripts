@@ -17,8 +17,8 @@ class Colors:
 
     class Device:
         NotLocked = ColorEx(Rgb.GREEN)
-        Locked = Strobe(Rgb.PURPLE, animation = 5)
-        CanBank = Pulse(Rgb.TEAL, animation = 5)
+        Locked = ColorEx(Rgb.PURPLE, Animation.GATE_HALF_BEAT)
+        CanBank = ColorEx(Rgb.TEAL, Animation.PULSE_HALF_BEAT)
         CantBank = ColorEx(Rgb.TEAL)
 
 def make_default_skin():

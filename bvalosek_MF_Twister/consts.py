@@ -1,8 +1,9 @@
 # MIDI channels for the different parts of the twister
 KNOB_CHANNEL = 0
 BUTTON_CHANNEL = 1
-ANIMATION_CHANNEL = 2
+BUTTON_ANIMATION_CHANNEL = 2
 BANK_CHANNEL = 3
+KNOB_ANIMATION_CHANNEL = 5
 SEQ_CHANNEL = 7
 
 # CC start of encoders (across all 4 banks, ie 0 - 63)
@@ -17,6 +18,4 @@ SEQ_KNOBS_START = 28
 # General settings
 KNOB_BANK_COUNT = 4
 KNOBS_PER_BANK = 16
-ON_BRIGHTNESS = 30
-OFF_BRIGHTNESS = 10
 
