@@ -111,8 +111,7 @@ class TwisterControlSurface(ControlSurface):
             lock_button = self._buttons[11]))
 
         strip_bg = Layer(priority = -10,
-            send_background_lights = to_matrix(self._buttons[0:8]),
-            volume_background_light = self._buttons[3])
+            send_background_lights = to_matrix(self._buttons[0:8]))
         strip_mode = LayerMode(self._strip, strip_bg + Layer(
             volume_control = self._knobs[3],
             send_controls = to_matrix(self._knobs[4:8])))
@@ -124,6 +123,7 @@ class TwisterControlSurface(ControlSurface):
             background_lights = to_matrix(self._buttons))
         device_mode = LayerMode(self._device, device_bg + Layer(
             parameter_controls = to_matrix(self._knobs),
+            bank_buttons = to_matrix(self._buttons[8:]),
             bank_prev_button = self._buttons[5],
             bank_next_button = self._buttons[6],
             lock_button = self._buttons[3]))
@@ -131,11 +131,11 @@ class TwisterControlSurface(ControlSurface):
         self._modes.add_mode('sixteen_param_mode', device_mode)
 
     def _setup_mixer_mode(self):
-        mixer = MixerComponent(num_returns = 7, is_enabled = False)
+        mixer = MixerComponent(num_returns = 8)
 
         strips = [ LayerMode(
             mixer.return_strip(x),
-            Layer(select_button = self._buttons[x])) for x in range(7) ]
+            Layer(select_button = self._buttons[x + 4])) for x in range(7) ]
 
         self._modes.add_mode('mixer_mode', strips)
 

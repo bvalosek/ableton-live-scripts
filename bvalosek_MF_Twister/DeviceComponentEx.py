@@ -48,3 +48,10 @@ class DeviceComponentEx(DeviceComponent):
         super(DeviceComponentEx, self).set_bank_next_button(button)
         if button:
             button.set_on_off_values('Device.CanBank', 'Device.CantBank')
+
+    def set_bank_buttons(self, buttons):
+        super(DeviceComponentEx, self).set_bank_buttons(buttons)
+        for button in buttons or []:
+            if button:
+                button.set_on_off_values('Device.ActiveBank', 'Device.InactiveBank')
+

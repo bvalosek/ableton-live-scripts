@@ -23,7 +23,9 @@ class Colors:
         NotLocked = ColorEx(Rgb.GREEN)
         Locked = ColorEx(Rgb.FUCHSIA, Animation.GATE_HALF_BEAT)
         CanBank = ColorEx(Rgb.TEAL, Animation.PULSE_HALF_BEAT)
-        CantBank = ColorEx(Rgb.TEAL)
+        CantBank = ColorEx(Rgb.TEAL, Brightness.LOW)
+        ActiveBank = ColorEx(Rgb.YELLOW)
+        InactiveBank = ColorEx(Rgb.PURPLE)
 
 def make_default_skin():
     return Skin(Colors)
