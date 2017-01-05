@@ -97,9 +97,11 @@ class TwisterControlSurface(ControlSurface):
         self._modes = ModesComponentEx()
         self._setup_main_mode()
         self._setup_sixteen_param_mode()
+        self._setup_mixer_mode()
         self._modes.layer = Layer(priority = 10,
             main_mode_button = self._buttons.get_button(0, 0),
-            sixteen_param_mode_button = self._buttons.get_button(1, 0))
+            sixteen_param_mode_button = self._buttons.get_button(1, 0),
+            mixer_mode_button = self._buttons.get_button(2, 0))
         self._modes.selected_mode = 'main_mode'
 
     def _setup_main_mode(self):
@@ -133,4 +135,16 @@ class TwisterControlSurface(ControlSurface):
         device_mode = LayerMode(self._device, device_bg + device_layer)
 
         self._modes.add_mode('sixteen_param_mode', device_mode)
+
+    def _setup_mixer_mode(self):
+        strip_bg = Layer(priority = -10,
+            send_background_lights = self._buttons.submatrix[:, :3])
+        strip_layer = Layer(
+            volume_control = self._knobs.get_button(3, 0),
+            arm_button = self._buttons.get_button(3, 0),
+            send_controls = self._knobs.submatrix[:, 1:3])
+
+        strip_mode = LayerMode(self._strip, strip_bg + strip_layer)
+
+        self._modes.add_mode('mixer_mode', [ strip_mode ])
 
