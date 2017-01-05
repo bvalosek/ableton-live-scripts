@@ -1,6 +1,9 @@
 from _Framework.ChannelStripComponent import ChannelStripComponent
 
 class ChannelStripComponentEx(ChannelStripComponent):
+    """
+    Special ChannelStrip for the twister that allows for skinning
+    """
 
     def set_send_background_lights(self, lights):
         for light in lights or []:

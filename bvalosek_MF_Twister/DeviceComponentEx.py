@@ -5,7 +5,7 @@ from Colors import *
 class DeviceComponentEx(DeviceComponent):
     """
     Extended DeviceComponent that allows for more than 8 parameters to be
-    mapped at once.
+    mapped at once, as well as skinning.
 
     Extra param controls will be mapped to the next bank
     """

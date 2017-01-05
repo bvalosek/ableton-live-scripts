@@ -3,15 +3,17 @@ from _Framework.ControlSurface import ControlSurface
 from _Framework.InputControlElement import MIDI_CC_TYPE
 from _Framework.Layer import Layer
 from _Framework.MixerComponent import MixerComponent
-from _Framework.ModesComponent import ModesComponent, LayerMode
+from _Framework.ModesComponent import LayerMode
 from _Framework.SubjectSlot import subject_slot, subject_slot_group
 
 from consts import *
 from Colors import *
 
+from BackgroundComponent import BackgroundComponent
 from ButtonElementEx import ButtonElementEx
 from DeviceComponentEx import DeviceComponentEx
 from MixerComponentEx import ChannelStripComponentEx
+from ModesComponentEx import ModesComponentEx
 from SendsComponent import SendsComponent
 from SkinDefault import make_default_skin
 from SliderElementEx import SliderElementEx
@@ -29,6 +31,7 @@ class TwisterControlSurface(ControlSurface):
         with self.component_guard():
             self._skin = make_default_skin()
             self._setup_controls()
+            self._setup_background()
             self._setup_device()
             self._setup_strip()
             self._setup_modes()
@@ -39,7 +42,8 @@ class TwisterControlSurface(ControlSurface):
         track = self.song().view.selected_track
         self._select_device_on_track(track)
 
-        # only change sends if the device isnt locked
+        # only change sends if the device isnt locked -- keeps strip in sync
+        # with our blue-hand locked device
         if not self._device._locked_to_device:
             self._strip.set_track(track)
 
@@ -58,10 +62,15 @@ class TwisterControlSurface(ControlSurface):
                 device = chain.devices[0]
         self._device.set_device(device)
 
+    def _setup_background(self):
+        background = BackgroundComponent()
+        background.layer = Layer(priority = -100,
+            knobs = to_matrix(self._knobs),
+            lights = to_matrix(self._buttons))
+
     def _setup_device(self):
         self._device = DeviceComponentEx()
         self.set_device_component(self._device)
-        self._device_selection_follows_track_selection = True
 
     def _setup_strip(self):
         self._strip = ChannelStripComponentEx()
@@ -84,7 +93,7 @@ class TwisterControlSurface(ControlSurface):
             self._buttons.append(button)
 
     def _setup_modes(self):
-        self._modes = ModesComponent()
+        self._modes = ModesComponentEx()
         self._setup_main_mode()
         self._setup_sixteen_param_mode()
         self._setup_mixer_mode()

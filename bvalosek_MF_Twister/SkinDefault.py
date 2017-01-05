@@ -7,12 +7,12 @@ class Colors:
     class Background:
         Default = ColorEx(Rgb.BLUE)
         Device = ColorEx(Rgb.BLUE)
-        DeviceLocked = ColorEx(Rgb.PURPLE, Animation.PULSE_QUARTER_BEAT)
         Sends = ColorEx(Rgb.ORANGE)
-        Volume = ColorEx(Rgb.RED)
+        Volume = ColorEx(Rgb.PINK)
 
-    class ModeButton:
-        Main = ColorEx(Rgb.BLUE)
+    class Modes:
+        Selected = ColorEx(Rgb.GREEN, Animation.PULSE_HALF_BEAT)
+        NotSelected = ColorEx(Rgb.GREEN, Brightness.LOW)
 
     class DefaultButton:
         On = ColorEx(Rgb.GREEN)
