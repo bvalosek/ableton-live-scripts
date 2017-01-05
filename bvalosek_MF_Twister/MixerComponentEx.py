@@ -10,7 +10,7 @@ class ChannelStripComponentEx(ChannelStripComponent):
             if light:
                 light.set_light('Background.Sends')
 
-    def set_volume_background_light(self, light):
-        if light:
-            light.set_light('Background.Volume')
-
+    def set_arm_button(self, button):
+        if button:
+            button.set_on_off_values('Mixer.ArmOn', 'Mixer.ArmOff')
+        super(ChannelStripComponentEx, self).set_arm_button(button)

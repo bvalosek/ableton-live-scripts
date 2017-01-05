@@ -7,11 +7,11 @@ class BackgroundComponent(ControlSurfaceComponent):
     """
 
     def set_lights(self, lights):
-        for light in lights:
+        for light in lights or []:
             if light:
                 light.set_light('DefaultButton.Off')
 
     def set_knobs(self, knobs):
-        for knob in knobs:
+        for knob in knobs or []:
             if knob:
                 knob.send_value(0, force = True)

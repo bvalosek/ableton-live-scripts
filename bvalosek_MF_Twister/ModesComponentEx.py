@@ -6,6 +6,6 @@ class ModesComponentEx(ModesComponent):
     """
 
     def set_mode_button(self, name, button):
-        super(ModesComponentEx, self).set_mode_button(name, button)
         if button:
             button.set_on_off_values('Modes.Selected', 'Modes.NotSelected')
+        super(ModesComponentEx, self).set_mode_button(name, button)

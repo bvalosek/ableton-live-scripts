@@ -43,7 +43,7 @@ class TwisterControlSurface(ControlSurface):
         self._select_device_on_track(track)
 
         # only change sends if the device isnt locked -- keeps strip in sync
-        # with our blue-hand locked device
+        # with the locked device
         if not self._device._locked_to_device:
             self._strip.set_track(track)
 
@@ -64,9 +64,7 @@ class TwisterControlSurface(ControlSurface):
 
     def _setup_background(self):
         background = BackgroundComponent()
-        background.layer = Layer(priority = -100,
-            knobs = to_matrix(self._knobs),
-            lights = to_matrix(self._buttons))
+        background.layer = Layer(priority = -100, knobs = self._knobs, lights = self._buttons)
 
     def _setup_device(self):
         self._device = DeviceComponentEx()
@@ -76,66 +74,63 @@ class TwisterControlSurface(ControlSurface):
         self._strip = ChannelStripComponentEx()
 
     def _setup_controls(self):
-        self._knobs = []
-        self._buttons = []
-        for knob_index in range(16):
-            knob = SliderElementEx(
-                    msg_type = MIDI_CC_TYPE,
-                    channel = KNOB_CHANNEL,
-                    identifier = knob_index)
-            button = ButtonElementEx(
-                    is_momentary = True,
-                    msg_type = MIDI_CC_TYPE,
-                    channel = BUTTON_CHANNEL,
-                    identifier = knob_index,
-                    skin = self._skin)
-            self._knobs.append(knob)
-            self._buttons.append(button)
+        knobs = [ [ self._make_knob(row, col) for col in range(4) ] for row in range(4) ]
+        buttons = [ [ self._make_button(row, col) for col in range(4) ] for row in range(4) ]
+        self._knobs = ButtonMatrixElement(knobs)
+        self._buttons = ButtonMatrixElement(buttons)
+
+    def _make_knob(self, row, col):
+        return SliderElementEx(
+            msg_type = MIDI_CC_TYPE,
+            channel = KNOB_CHANNEL,
+            identifier = row * 4 + col)
+
+    def _make_button(self, row, col):
+        return ButtonElementEx(
+            msg_type = MIDI_CC_TYPE,
+            channel = BUTTON_CHANNEL,
+            identifier = row * 4 + col,
+            is_momentary = True,
+            skin = self._skin)
 
     def _setup_modes(self):
         self._modes = ModesComponentEx()
         self._setup_main_mode()
         self._setup_sixteen_param_mode()
-        self._setup_mixer_mode()
-        self._modes.selected_mode = 'main_mode'
         self._modes.layer = Layer(priority = 10,
-            main_mode_button = self._buttons[0],
-            sixteen_param_mode_button = self._buttons[1],
-            mixer_mode_button = self._buttons[2])
+            main_mode_button = self._buttons.get_button(0, 0),
+            sixteen_param_mode_button = self._buttons.get_button(1, 0))
+        self._modes.selected_mode = 'main_mode'
 
     def _setup_main_mode(self):
-        device_bg = Layer(priority = -10,
-            background_lights = to_matrix(self._buttons[8:]))
-        device_mode = LayerMode(self._device, device_bg + Layer(
-            parameter_controls = to_matrix(self._knobs[8:]),
-            lock_button = self._buttons[11]))
-
         strip_bg = Layer(priority = -10,
-            send_background_lights = to_matrix(self._buttons[0:8]))
-        strip_mode = LayerMode(self._strip, strip_bg + Layer(
-            volume_control = self._knobs[3],
-            send_controls = to_matrix(self._knobs[4:8])))
+            send_background_lights = self._buttons.submatrix[:, :2])
+        strip_layer = Layer(
+            volume_control = self._knobs.get_button(3, 0),
+            arm_button = self._buttons.get_button(3, 0),
+            send_controls = self._knobs.submatrix[:, 1])
 
-        self._modes.add_mode('main_mode', [ device_mode, strip_mode])
+        device_bg = Layer(priority = -10,
+            background_lights = self._buttons.submatrix[:, 2:])
+        device_layer = Layer(
+            parameter_controls = self._knobs.submatrix[:, 2:],
+            lock_button = self._buttons.get_button(3, 2))
+
+        strip_mode = LayerMode(self._strip, strip_bg + strip_layer)
+        device_mode = LayerMode(self._device, device_bg + device_layer)
+
+        self._modes.add_mode('main_mode', [ strip_mode, device_mode ])
 
     def _setup_sixteen_param_mode(self):
-        device_bg = Layer(priority = -10,
-            background_lights = to_matrix(self._buttons))
-        device_mode = LayerMode(self._device, device_bg + Layer(
-            parameter_controls = to_matrix(self._knobs),
-            bank_buttons = to_matrix(self._buttons[8:]),
-            bank_prev_button = self._buttons[5],
-            bank_next_button = self._buttons[6],
-            lock_button = self._buttons[3]))
+        device_bg = Layer(priority = -10, background_lights = self._buttons)
+        device_layer = Layer(
+            parameter_controls = self._knobs,
+            bank_buttons = self._buttons.submatrix[:, 2:],
+            bank_prev_button = self._buttons.get_button(1, 1),
+            bank_next_button = self._buttons.get_button(2, 1),
+            lock_button = self._buttons.get_button(3, 0))
+
+        device_mode = LayerMode(self._device, device_bg + device_layer)
 
         self._modes.add_mode('sixteen_param_mode', device_mode)
-
-    def _setup_mixer_mode(self):
-        mixer = MixerComponent(num_returns = 8)
-
-        strips = [ LayerMode(
-            mixer.return_strip(x),
-            Layer(select_button = self._buttons[x + 4])) for x in range(7) ]
-
-        self._modes.add_mode('mixer_mode', strips)
 

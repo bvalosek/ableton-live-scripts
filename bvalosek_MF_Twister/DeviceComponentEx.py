@@ -30,9 +30,9 @@ class DeviceComponentEx(DeviceComponent):
         return bank
 
     def set_lock_button(self, button):
-        super(DeviceComponentEx, self).set_lock_button(button)
         if button:
             button.set_on_off_values('Device.Locked', 'Device.NotLocked')
+        super(DeviceComponentEx, self).set_lock_button(button)
 
     def set_background_lights(self, lights):
         for c in lights or []:
@@ -40,18 +40,18 @@ class DeviceComponentEx(DeviceComponent):
                 c.set_light('Background.Device')
 
     def set_bank_prev_button(self, button):
-        super(DeviceComponentEx, self).set_bank_prev_button(button)
         if button:
             button.set_on_off_values('Device.CanBank', 'Device.CantBank')
+        super(DeviceComponentEx, self).set_bank_prev_button(button)
 
     def set_bank_next_button(self, button):
-        super(DeviceComponentEx, self).set_bank_next_button(button)
         if button:
             button.set_on_off_values('Device.CanBank', 'Device.CantBank')
+        super(DeviceComponentEx, self).set_bank_next_button(button)
 
     def set_bank_buttons(self, buttons):
-        super(DeviceComponentEx, self).set_bank_buttons(buttons)
         for button in buttons or []:
             if button:
                 button.set_on_off_values('Device.ActiveBank', 'Device.InactiveBank')
+        super(DeviceComponentEx, self).set_bank_buttons(buttons)
 
