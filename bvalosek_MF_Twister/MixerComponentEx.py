@@ -20,7 +20,9 @@ class ChannelStripComponentEx(ChannelStripComponent):
 
 
 class MixerComponentEx(MixerComponent):
-    pass
+    """
+    Special MixerComponent that allows for skinning
+    """
 
     def set_return_track_select_buttons(self, buttons):
         for strip, button in izip_longest(self._return_strips, buttons or []):
