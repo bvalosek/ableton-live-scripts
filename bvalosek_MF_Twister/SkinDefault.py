@@ -20,6 +20,8 @@ class Colors:
     class Mixer:
         ArmOn = ColorEx(Rgb.RED, Animation.GATE_HALF_BEAT)
         ArmOff = ColorEx(Rgb.YELLOW)
+        Send = ColorEx(Rgb.ORANGE)
+        SendSelected = ColorEx(Rgb.YELLOW, Animation.GATE_HALF_BEAT)
 
     class Device:
         On = ColorEx(Rgb.MINT)

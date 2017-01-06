@@ -12,7 +12,7 @@ from Colors import *
 from BackgroundComponent import BackgroundComponent
 from ButtonElementEx import ButtonElementEx
 from DeviceComponentEx import DeviceComponentEx
-from MixerComponentEx import ChannelStripComponentEx
+from MixerComponentEx import MixerComponentEx, ChannelStripComponentEx
 from ModesComponentEx import ModesComponentEx
 from SendsComponent import SendsComponent
 from SkinDefault import make_default_skin
@@ -33,7 +33,7 @@ class TwisterControlSurface(ControlSurface):
             self._setup_controls()
             self._setup_background()
             self._setup_device()
-            self._setup_strip()
+            self._setup_mixer()
             self._setup_modes()
             self._handle_track_change()
 
@@ -71,8 +71,9 @@ class TwisterControlSurface(ControlSurface):
         self._device.log = self.log_message
         self.set_device_component(self._device)
 
-    def _setup_strip(self):
+    def _setup_mixer(self):
         self._strip = ChannelStripComponentEx()
+        self._mixer = MixerComponentEx(num_returns = 8)
 
     def _setup_controls(self):
         knobs = [ [ self._make_knob(row, col) for col in range(4) ] for row in range(4) ]
@@ -113,6 +114,8 @@ class TwisterControlSurface(ControlSurface):
             arm_button = self._buttons.get_button(3, 0),
             send_controls = self._knobs.submatrix[:, 1])
 
+        mixer_layer = Layer(return_track_select_buttons = self._buttons.submatrix[:, 1])
+
         device_bg = Layer(priority = -10,
             parameter_indicators = self._buttons.submatrix[:, 2:])
         device_layer = Layer(
@@ -122,19 +125,20 @@ class TwisterControlSurface(ControlSurface):
 
         strip_mode = LayerMode(self._strip, strip_bg + strip_layer)
         device_mode = LayerMode(self._device, device_bg + device_layer)
+        mixer_mode = LayerMode(self._mixer, mixer_layer)
 
-        self._modes.add_mode('main_mode', [ strip_mode, device_mode ])
+        self._modes.add_mode('main_mode', [ strip_mode, mixer_mode, device_mode ])
 
     def _setup_sixteen_param_mode(self):
         device_bg = Layer(priority = -10,
             parameter_indicators = self._buttons)
         device_layer = Layer(
             parameter_controls = self._knobs,
-            on_off_button = self._buttons.get_button(3, 1),
-            bank_buttons = self._buttons.submatrix[:, 2:],
+            on_off_button = self._buttons.get_button(3, 3),
+            bank_buttons = self._buttons.submatrix[:3, 2:],
             bank_prev_button = self._buttons.get_button(1, 1),
             bank_next_button = self._buttons.get_button(2, 1),
-            lock_button = self._buttons.get_button(3, 0))
+            lock_button = self._buttons.get_button(3, 2))
 
         device_mode = LayerMode(self._device, device_bg + device_layer)
 
