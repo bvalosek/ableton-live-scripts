@@ -10,8 +10,61 @@ class DeviceComponentEx(DeviceComponent):
     Extra param controls will be mapped to the next bank
     """
 
+    def set_lock_button(self, button):
+        if button:
+            button.set_on_off_values('Device.Locked', 'Device.NotLocked')
+        super(DeviceComponentEx, self).set_lock_button(button)
+
+    def set_bank_prev_button(self, button):
+        if button:
+            button.set_on_off_values('Device.CanBank', 'Device.CantBank')
+        super(DeviceComponentEx, self).set_bank_prev_button(button)
+
+    def set_bank_next_button(self, button):
+        if button:
+            button.set_on_off_values('Device.CanBank', 'Device.CantBank')
+        super(DeviceComponentEx, self).set_bank_next_button(button)
+
+    def set_on_off_button(self, button):
+        if button:
+            button.set_on_off_values('Device.On', 'Device.Off')
+        super(DeviceComponentEx, self).set_on_off_button(button)
+
+    def set_bank_buttons(self, buttons):
+        for button in buttons or []:
+            if button:
+                button.set_on_off_values('Device.ActiveBank', 'Device.InactiveBank')
+        super(DeviceComponentEx, self).set_bank_buttons(buttons)
+
+    def set_parameter_indicators(self, controls):
+        self._param_indicators = controls
+        self.update()
+
+    def _on_device_on_off_changed(self):
+        self._update_param_indicators()
+        super(DeviceComponentEx, self)._on_device_on_off_changed()
+
+    def _lock_value(self, value):
+        self._update_param_indicators()
+        super(DeviceComponentEx, self)._lock_value(value)
+
+    def update(self):
+        super(DeviceComponentEx, self).update()
+        if self.is_enabled() and self._device:
+            self._update_param_indicators()
+
+    def _update_param_indicators(self):
+        for control in self._param_indicators or []:
+            if control: 
+                if not self._on_off_parameter().value:
+                    control.set_light('Device.ParameterWhenOff')
+                elif self._locked_to_device:
+                    control.set_light('Device.ParameterWhenLocked')
+                else:
+                    control.set_light('Device.Parameter')
+
     def _assign_parameters(self):
-        DeviceComponent._assign_parameters(self)
+        super(DeviceComponentEx, self)._assign_parameters()
         if len(self._parameter_controls) > 8:
             next_bank = self._get_next_bank()
             for control, parameter in zip(self._parameter_controls[8:16], next_bank):
@@ -28,30 +81,4 @@ class DeviceComponentEx(DeviceComponent):
             if len(banks) > next_index:
                 bank = banks[next_index]
         return bank
-
-    def set_lock_button(self, button):
-        if button:
-            button.set_on_off_values('Device.Locked', 'Device.NotLocked')
-        super(DeviceComponentEx, self).set_lock_button(button)
-
-    def set_background_lights(self, lights):
-        for c in lights or []:
-            if c:
-                c.set_light('Background.Device')
-
-    def set_bank_prev_button(self, button):
-        if button:
-            button.set_on_off_values('Device.CanBank', 'Device.CantBank')
-        super(DeviceComponentEx, self).set_bank_prev_button(button)
-
-    def set_bank_next_button(self, button):
-        if button:
-            button.set_on_off_values('Device.CanBank', 'Device.CantBank')
-        super(DeviceComponentEx, self).set_bank_next_button(button)
-
-    def set_bank_buttons(self, buttons):
-        for button in buttons or []:
-            if button:
-                button.set_on_off_values('Device.ActiveBank', 'Device.InactiveBank')
-        super(DeviceComponentEx, self).set_bank_buttons(buttons)
 

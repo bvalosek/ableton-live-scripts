@@ -6,7 +6,6 @@ from Colors import *
 class Colors:
     class Background:
         Default = ColorEx(Rgb.BLUE)
-        Device = ColorEx(Rgb.BLUE)
         Sends = ColorEx(Rgb.ORANGE)
 
     class Modes:
@@ -23,12 +22,17 @@ class Colors:
         ArmOff = ColorEx(Rgb.YELLOW)
 
     class Device:
+        On = ColorEx(Rgb.MINT)
+        Off = ColorEx(Rgb.RED)
         NotLocked = ColorEx(Rgb.TEAL)
         Locked = ColorEx(Rgb.FUCHSIA, Animation.GATE_HALF_BEAT)
         CanBank = ColorEx(Rgb.TEAL)
         CantBank = ColorEx(Rgb.TEAL, Brightness.LOW)
-        ActiveBank = ColorEx(Rgb.MINT)
+        ActiveBank = ColorEx(Rgb.FUCHSIA)
         InactiveBank = ColorEx(Rgb.PURPLE)
+        Parameter = ColorEx(Rgb.BLUE)
+        ParameterWhenLocked = ColorEx(Rgb.BLUE, Animation.PULSE_1_BEAT)
+        ParameterWhenOff = ColorEx(Rgb.RED, Animation.GATE_HALF_BEAT)
 
 def make_default_skin():
     return Skin(Colors)

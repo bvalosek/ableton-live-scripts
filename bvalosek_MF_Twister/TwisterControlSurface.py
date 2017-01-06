@@ -68,6 +68,7 @@ class TwisterControlSurface(ControlSurface):
 
     def _setup_device(self):
         self._device = DeviceComponentEx()
+        self._device.log = self.log_message
         self.set_device_component(self._device)
 
     def _setup_strip(self):
@@ -113,8 +114,9 @@ class TwisterControlSurface(ControlSurface):
             send_controls = self._knobs.submatrix[:, 1])
 
         device_bg = Layer(priority = -10,
-            background_lights = self._buttons.submatrix[:, 2:])
+            parameter_indicators = self._buttons.submatrix[:, 2:])
         device_layer = Layer(
+            on_off_button = self._buttons.get_button(3, 3),
             parameter_controls = self._knobs.submatrix[:, 2:],
             lock_button = self._buttons.get_button(3, 2))
 
@@ -124,9 +126,11 @@ class TwisterControlSurface(ControlSurface):
         self._modes.add_mode('main_mode', [ strip_mode, device_mode ])
 
     def _setup_sixteen_param_mode(self):
-        device_bg = Layer(priority = -10, background_lights = self._buttons)
+        device_bg = Layer(priority = -10,
+            parameter_indicators = self._buttons)
         device_layer = Layer(
             parameter_controls = self._knobs,
+            on_off_button = self._buttons.get_button(3, 1),
             bank_buttons = self._buttons.submatrix[:, 2:],
             bank_prev_button = self._buttons.get_button(1, 1),
             bank_next_button = self._buttons.get_button(2, 1),
