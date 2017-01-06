@@ -107,14 +107,13 @@ class TwisterControlSurface(ControlSurface):
         self._modes.selected_mode = 'main_mode'
 
     def _setup_main_mode(self):
-        strip_bg = Layer(priority = -10,
-            send_background_lights = self._buttons.submatrix[:, :2])
         strip_layer = Layer(
             volume_control = self._knobs.get_button(3, 0),
             arm_button = self._buttons.get_button(3, 0),
             send_controls = self._knobs.submatrix[:, 1])
 
-        mixer_layer = Layer(return_track_select_buttons = self._buttons.submatrix[:, 1])
+        mixer_layer = Layer(
+            return_track_select_buttons = self._buttons.submatrix[:, 1])
 
         device_bg = Layer(priority = -10,
             parameter_indicators = self._buttons.submatrix[:, 2:])
@@ -123,7 +122,7 @@ class TwisterControlSurface(ControlSurface):
             parameter_controls = self._knobs.submatrix[:, 2:],
             lock_button = self._buttons.get_button(3, 2))
 
-        strip_mode = LayerMode(self._strip, strip_bg + strip_layer)
+        strip_mode = LayerMode(self._strip, strip_layer)
         device_mode = LayerMode(self._device, device_bg + device_layer)
         mixer_mode = LayerMode(self._mixer, mixer_layer)
 
@@ -145,14 +144,16 @@ class TwisterControlSurface(ControlSurface):
         self._modes.add_mode('sixteen_param_mode', device_mode)
 
     def _setup_mixer_mode(self):
-        strip_bg = Layer(priority = -10,
-            send_background_lights = self._buttons.submatrix[:, :3])
         strip_layer = Layer(
             volume_control = self._knobs.get_button(3, 0),
             arm_button = self._buttons.get_button(3, 0),
-            send_controls = self._knobs.submatrix[:, 1:3])
+            send_controls = self._knobs.submatrix[:, 2:])
 
-        strip_mode = LayerMode(self._strip, strip_bg + strip_layer)
+        mixer_layer = Layer(
+            return_track_select_buttons = self._buttons.submatrix[:, 2:])
 
-        self._modes.add_mode('mixer_mode', [ strip_mode ])
+        strip_mode = LayerMode(self._strip, strip_layer)
+        mixer_mode = LayerMode(self._mixer, mixer_layer)
+
+        self._modes.add_mode('mixer_mode', [ strip_mode, mixer_mode ])
 
