@@ -2,12 +2,13 @@
 
 My personal MIDI Remote Scripts for Ableton 9.
 
-> Tested on Ableton Live 9.7.1
+> Tested on Ableton Live Suite 9.7.1
 
 ## Devices
 
-* DJ TechTools MIDI Fighter Twister
+* Akai MPK249 Keyboard
 * Alesis VI 49 Keyboard
+* DJ TechTools MIDI Fighter Twister
 
 ## Installation
 
@@ -53,9 +54,9 @@ depending on how you're using your hardware.
 
 Detailed information about each controller's customization
 
-### DJ TechTools MIDI Fighter Twister
+### Akai MPK249
 
-> TBW
+> Still in development
 
 ### Alesis VI 49 Keyboard
 
@@ -69,6 +70,10 @@ position than the currently selected device
 #### MIDI Mapping
 
 * Knobs 1-12: Channel 1, CC 20-31
+
+### DJ TechTools MIDI Fighter Twister
+
+> Still in development
 
 ## License
 
