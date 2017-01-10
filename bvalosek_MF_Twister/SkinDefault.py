@@ -20,12 +20,13 @@ class Colors:
     class Mixer:
         ArmOn = ColorEx(Rgb.RED, Animation.GATE_HALF_BEAT)
         ArmOff = ColorEx(Rgb.YELLOW)
-        Send = ColorEx(Rgb.ORANGE)
-        SendSelected = ColorEx(Rgb.YELLOW, Animation.GATE_HALF_BEAT)
+        Track = ColorEx(Rgb.ORANGE)
+        TrackSelected = ColorEx(Rgb.YELLOW, Animation.GATE_HALF_BEAT)
+        NoTrack = ColorEx(Rgb.ORANGE, Brightness.LOW)
 
     class Device:
         On = ColorEx(Rgb.MINT)
-        Off = ColorEx(Rgb.RED)
+        Off = ColorEx(Rgb.RED, Animation.GATE_HALF_BEAT)
         NotLocked = ColorEx(Rgb.TEAL)
         Locked = ColorEx(Rgb.FUCHSIA, Animation.GATE_HALF_BEAT)
         CanBank = ColorEx(Rgb.TEAL)
@@ -33,7 +34,7 @@ class Colors:
         ActiveBank = ColorEx(Rgb.FUCHSIA)
         InactiveBank = ColorEx(Rgb.PURPLE)
         Parameter = ColorEx(Rgb.BLUE)
-        ParameterWhenLocked = ColorEx(Rgb.BLUE, Animation.PULSE_1_BEAT)
+        ParameterWhenLocked = ColorEx(Rgb.BLUE, Animation.GATE_HALF_BEAT)
         ParameterWhenOff = ColorEx(Rgb.RED, Animation.GATE_HALF_BEAT)
 
 def make_default_skin():

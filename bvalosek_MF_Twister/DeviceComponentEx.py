@@ -54,9 +54,10 @@ class DeviceComponentEx(DeviceComponent):
             self._update_param_indicators()
 
     def _update_param_indicators(self):
+        on_off_param = self._on_off_parameter()
         for control in self._param_indicators or []:
             if control: 
-                if not self._on_off_parameter().value:
+                if on_off_param and not self._on_off_parameter().value:
                     control.set_light('Device.ParameterWhenOff')
                 elif self._locked_to_device:
                     control.set_light('Device.ParameterWhenLocked')

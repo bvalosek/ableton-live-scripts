@@ -113,6 +113,7 @@ class TwisterControlSurface(ControlSurface):
             send_controls = self._knobs.submatrix[:, 1])
 
         mixer_layer = Layer(
+            prehear_volume_control = self._knobs.get_button(0, 0),
             return_track_select_buttons = self._buttons.submatrix[:, 1])
 
         device_bg = Layer(priority = -10,
