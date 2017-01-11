@@ -70,6 +70,13 @@ position than the currently selected device
 #### MIDI Mapping
 
 * Knobs 1-12: Channel 1, CC 20-31
+* Transport: CHannel 1
+  * Record: CC 114
+  * Loop: CC 115
+  * Rewind: CC 116
+  * Fast Foward: CC 117
+  * Stop: CC 118
+  * Play: CC 119
 
 ### DJ TechTools MIDI Fighter Twister
 
