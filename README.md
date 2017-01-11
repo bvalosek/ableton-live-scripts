@@ -59,6 +59,8 @@ Detailed information about each controller's customization
 
 ### Akai MPK249
 
+Compatible with factory preset `1 LiveLite`.
+
 * Faders 1-8 control track volume for tracks 1-8
 * Buttons 1-8 select and arm tracks 1-8
 * Transport functions as expected, but:
