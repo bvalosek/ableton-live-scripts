@@ -62,6 +62,7 @@ Detailed information about each controller's customization
 
 * Knobs 1-8 control the currently selected device
 * Knobs 9-12 control the first four sends of the selected track
+* Transport functions as expected
 
 Consider adjusting the *Takeover Mode* in the Ableton Live Preference window to
 adjust how values are transitioned when the hardware knob is in a different
@@ -69,8 +70,15 @@ position than the currently selected device
 
 #### MIDI Mapping
 
-* Knobs 1-12: Channel 1, CC 20-31
-* Transport: Channel 1
+This should just be the factory settings:
+
+> All on MIDI Channel 1
+
+* Knobs 1-12: CC 20-31
+* Switches 1-12: Toggle, CC 48-59
+* Switches 13-24: Toggle, CC 64-75
+* Switches 24-36: Toggle, CC 80-91
+* Transport: Momentary
   * Record: CC 114
   * Loop: CC 115
   * Rewind: CC 116
