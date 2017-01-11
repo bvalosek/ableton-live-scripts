@@ -56,13 +56,17 @@ Detailed information about each controller's customization
 
 ### Akai MPK249
 
-> Still in development
+* Faders 1-8 control track volume for tracks 1-8
+* Buttons 1-8 select and arm tracks 1-8
+* Transport functions as expected, but:
+  * Record acts as a hybrid session record / new (like Launchpad, Push, etc)
 
 ### Alesis VI 49 Keyboard
 
 * Knobs 1-8 control the currently selected device
 * Knobs 9-12 control the first four sends of the selected track
-* Transport functions as expected
+* Transport functions as expected, but:
+  * Record acts as a hybrid session record / new (like Launchpad, Push, etc)
 
 Consider adjusting the *Takeover Mode* in the Ableton Live Preference window to
 adjust how values are transitioned when the hardware knob is in a different

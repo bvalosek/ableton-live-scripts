@@ -9,6 +9,8 @@ from _Framework.SliderElement import SliderElement
 from _Framework.SubjectSlot import subject_slot
 from _Framework.TransportComponent import TransportComponent
 
+from bvalosek_common.SessionRecordingComponentEx import SessionRecordingComponentEx
+
 from consts import *
 
 def create_button(channel, cc):
@@ -63,9 +65,10 @@ class AlesisVI49ControlSurface(ControlSurface):
             play_button = self._play_button,
             stop_button = self._stop_button,
             loop_button = self._loop_button,
-            record_button = self._record_button,
             seek_forward_button = self._forward_button,
             seek_backward_button = self._backward_button)
+        self._session_record = SessionRecordingComponentEx()
+        self._session_record.layer = Layer(record_button = self._record_button)
 
     def _setup_device(self):
         """Create a DeviceComponent to control macro knobs"""
