@@ -1,5 +1,10 @@
 # Change History
 
+## v2.2.0 (2017-01-10)
+
+* Substantial changes to MF Twister scripts, still heavily in flux
+* Added transport controls to Alesis VI 49 script
+
 ## v2.1.0 (2017-01-02)
 
 * Added Alesis VI 49 script
