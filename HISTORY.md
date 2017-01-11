@@ -1,5 +1,10 @@
 # Change History
 
+## v2.3.0 (2017-01-11)
+
+* Added MPK249 script
+* MPK249 and Alesis VI49 record button acts as Push-style session record
+
 ## v2.2.0 (2017-01-10)
 
 * Substantial changes to MF Twister scripts, still heavily in flux
