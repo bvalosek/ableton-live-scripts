@@ -1,5 +1,9 @@
 # Change History
 
+## v2.5.0 (2017-01-14)
+
+* MPK249 and VI49 set to use Loop button as Tap Tempo
+
 ## v2.4.0 (2017-01-14)
 
 * Twister Main Mode shows metronome lights

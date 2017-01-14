@@ -102,7 +102,8 @@ This should just be the factory settings:
 For devices with transport controls, these scripts set it up as follows:
 
 * Fast Forward, Rewind, Play, Stop all work as expected
-* Record acts as a hybrid session record / new (like Launchpad Pro, Push, etc)
+* Loop acts as the Tap Tempo Button
+* Record acts as a hybrid session record / new clip (like Launchpad Pro, Push, etc)
 
 ## License
 
