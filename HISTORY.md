@@ -1,5 +1,10 @@
 # Change History
 
+## v2.4.0 (2017-01-14)
+
+* Twister Main Mode shows metronome lights
+* Small improvements and cleanup to MF Twister script
+
 ## v2.3.0 (2017-01-11)
 
 * Added MPK249 script
