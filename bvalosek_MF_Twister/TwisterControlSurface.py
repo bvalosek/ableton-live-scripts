@@ -123,26 +123,19 @@ class TwisterControlSurface(ControlSurface):
             parameter_controls = self._knobs.submatrix[:, 2:],
             lock_button = self._buttons.get_button(2, 3))
 
-        metronome_layer = Layer(lights = self._buttons.submatrix[:, 2])
         metronome = MetronomeComponent()
-        metronome.log = self.log_message
+        metronome_layer = Layer(lights = self._buttons.submatrix[:, 2])
 
+        device_bg = BackgroundComponent(color = 'Device.Background')
         device_bg_layer = Layer(priority = -10,
             lights = self._buttons.submatrix[:, 2:])
-        device_bg = BackgroundComponent(color = 'Device.Background')
-
-        strip_mode = LayerMode(self._strip, strip_layer)
-        metronome_mode = LayerMode(metronome, metronome_layer)
-        device_bg_mode = LayerMode(device_bg, device_bg_layer)
-        device_mode = LayerMode(self._device, device_layer)
-        mixer_mode = LayerMode(self._mixer, mixer_layer)
 
         self._modes.add_mode('main_mode', [
-            strip_mode,
-            mixer_mode,
-            metronome_mode,
-            device_bg_mode,
-            device_mode ])
+            LayerMode(self._strip, strip_layer),
+            LayerMode(self._mixer, mixer_layer),
+            LayerMode(metronome, metronome_layer),
+            LayerMode(device_bg, device_bg_layer),
+            LayerMode(self._device, device_layer) ])
 
     def _setup_sixteen_param_mode(self):
         device_layer = Layer(
@@ -153,9 +146,12 @@ class TwisterControlSurface(ControlSurface):
             bank_next_button = self._buttons.get_button(2, 1),
             lock_button = self._buttons.get_button(3, 2))
 
-        device_mode = LayerMode(self._device, device_layer)
+        device_bg = BackgroundComponent(color = 'Device.Background')
+        device_bg_layer = Layer(priority = -10, lights = self._buttons)
 
-        self._modes.add_mode('sixteen_param_mode', device_mode)
+        self._modes.add_mode('sixteen_param_mode', [
+            LayerMode(device_bg, device_bg_layer),
+            LayerMode(self._device, device_layer) ])
 
     def _setup_mixer_mode(self):
         strip_layer = Layer(
