@@ -24,6 +24,10 @@ class Colors:
         TrackSelected = ColorEx(Rgb.YELLOW, Animation.GATE_HALF_BEAT)
         NoTrack = ColorEx(Rgb.ORANGE, Brightness.LOW)
 
+    class Metronome:
+        Beat = ColorEx(Rgb.RED)
+        Background = ColorEx(Rgb.BLUE)
+
     class Device:
         On = ColorEx(Rgb.MINT)
         Off = ColorEx(Rgb.RED, Animation.GATE_HALF_BEAT)
@@ -33,9 +37,7 @@ class Colors:
         CantBank = ColorEx(Rgb.TEAL, Brightness.LOW)
         ActiveBank = ColorEx(Rgb.FUCHSIA)
         InactiveBank = ColorEx(Rgb.PURPLE)
-        Parameter = ColorEx(Rgb.BLUE)
-        ParameterWhenLocked = ColorEx(Rgb.BLUE, Animation.GATE_HALF_BEAT)
-        ParameterWhenOff = ColorEx(Rgb.RED, Animation.GATE_HALF_BEAT)
+        Background = ColorEx(Rgb.BLUE)
 
 def make_default_skin():
     return Skin(Colors)

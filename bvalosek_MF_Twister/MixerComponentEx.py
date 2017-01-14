@@ -1,9 +1,10 @@
-from _Framework.ChannelStripComponent import ChannelStripComponent
 from _Framework.MixerComponent import MixerComponent
+
+from bvalosek_common.MixerComponentEx import ChannelStripComponentEx as ChannelStripComponentExBase
 
 from itertools import izip_longest
 
-class ChannelStripComponentEx(ChannelStripComponent):
+class ChannelStripComponentEx(ChannelStripComponentExBase):
     """
     Special ChannelStrip for the twister that allows for skinning
     """

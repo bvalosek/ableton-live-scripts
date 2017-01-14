@@ -6,10 +6,14 @@ class BackgroundComponent(ControlSurfaceComponent):
     so that anything not mapped will get grabbed and cleared
     """
 
+    def __init__(self, color = 'DefaultButton.Off', *a, **k):
+        super(BackgroundComponent, self).__init__(*a, **k)
+        self._color = color
+
     def set_lights(self, lights):
         for light in lights or []:
             if light:
-                light.set_light('DefaultButton.Off')
+                light.set_light(self._color)
 
     def set_knobs(self, knobs):
         for knob in knobs or []:

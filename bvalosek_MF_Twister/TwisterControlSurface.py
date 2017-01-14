@@ -9,6 +9,8 @@ from _Framework.SubjectSlot import subject_slot, subject_slot_group
 from consts import *
 from Colors import *
 
+from bvalosek_common.MetronomeComponent import MetronomeComponent
+
 from BackgroundComponent import BackgroundComponent
 from ButtonElementEx import ButtonElementEx
 from DeviceComponentEx import DeviceComponentEx
@@ -116,22 +118,33 @@ class TwisterControlSurface(ControlSurface):
             prehear_volume_control = self._knobs.get_button(0, 0),
             return_track_select_buttons = self._buttons.submatrix[:, 1])
 
-        device_bg = Layer(priority = -10,
-            parameter_indicators = self._buttons.submatrix[:, 2:])
         device_layer = Layer(
             on_off_button = self._buttons.get_button(3, 3),
             parameter_controls = self._knobs.submatrix[:, 2:],
-            lock_button = self._buttons.get_button(3, 2))
+            lock_button = self._buttons.get_button(2, 3))
+
+        metronome_layer = Layer(lights = self._buttons.submatrix[:, 2])
+        metronome = MetronomeComponent()
+        metronome.log = self.log_message
+
+        device_bg_layer = Layer(priority = -10,
+            lights = self._buttons.submatrix[:, 2:])
+        device_bg = BackgroundComponent(color = 'Device.Background')
 
         strip_mode = LayerMode(self._strip, strip_layer)
-        device_mode = LayerMode(self._device, device_bg + device_layer)
+        metronome_mode = LayerMode(metronome, metronome_layer)
+        device_bg_mode = LayerMode(device_bg, device_bg_layer)
+        device_mode = LayerMode(self._device, device_layer)
         mixer_mode = LayerMode(self._mixer, mixer_layer)
 
-        self._modes.add_mode('main_mode', [ strip_mode, mixer_mode, device_mode ])
+        self._modes.add_mode('main_mode', [
+            strip_mode,
+            mixer_mode,
+            metronome_mode,
+            device_bg_mode,
+            device_mode ])
 
     def _setup_sixteen_param_mode(self):
-        device_bg = Layer(priority = -10,
-            parameter_indicators = self._buttons)
         device_layer = Layer(
             parameter_controls = self._knobs,
             on_off_button = self._buttons.get_button(3, 3),
@@ -140,7 +153,7 @@ class TwisterControlSurface(ControlSurface):
             bank_next_button = self._buttons.get_button(2, 1),
             lock_button = self._buttons.get_button(3, 2))
 
-        device_mode = LayerMode(self._device, device_bg + device_layer)
+        device_mode = LayerMode(self._device, device_layer)
 
         self._modes.add_mode('sixteen_param_mode', device_mode)
 

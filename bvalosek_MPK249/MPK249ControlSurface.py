@@ -3,12 +3,13 @@ from _Framework.ButtonMatrixElement import ButtonMatrixElement
 from _Framework.ControlSurface import ControlSurface
 from _Framework.InputControlElement import MIDI_CC_TYPE
 from _Framework.Layer import Layer
-from _Framework.MixerComponent import MixerComponent
 from _Framework.SliderElement import SliderElement
 from _Framework.TransportComponent import TransportComponent
 from _Framework.SessionRecordingComponent import SessionRecordingComponent
 
 from bvalosek_common.SessionRecordingComponentEx import SessionRecordingComponentEx
+from bvalosek_common.MixerComponentEx import MixerComponentEx
+from bvalosek_common.MetronomeComponent import MetronomeComponent
 
 from consts import *
 
@@ -48,10 +49,9 @@ class MPK249ControlSurface(ControlSurface):
         self._loop_button = ButtonElement(True, MIDI_CC_TYPE, TRANSPORT_CHANNEL, TRANSPORT_LOOP)
 
     def _setup_mixer(self):
-        self._mixer = MixerComponent(num_tracks = FADER_COUNT)
+        self._mixer = MixerComponentEx(num_tracks = FADER_COUNT)
         self._mixer.layer = Layer(
             volume_controls = self._faders,
-            track_select_buttons = self._buttons,
             arm_buttons = self._buttons)
 
     def _setup_transport(self):
@@ -60,6 +60,7 @@ class MPK249ControlSurface(ControlSurface):
             play_button = self._play_button,
             stop_button = self._stop_button,
             seek_forward_button = self._forward_button,
-            seek_backward_button = self._backward_button)
+            seek_backward_button = self._backward_button,
+            loop_button = self._loop_button)
         self._session_record = SessionRecordingComponentEx()
         self._session_record.layer = Layer(record_button = self._record_button)
