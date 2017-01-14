@@ -61,6 +61,6 @@ class MPK249ControlSurface(ControlSurface):
             stop_button = self._stop_button,
             seek_forward_button = self._forward_button,
             seek_backward_button = self._backward_button,
-            loop_button = self._loop_button)
+            tap_tempo_button = self._loop_button)
         self._session_record = SessionRecordingComponentEx()
         self._session_record.layer = Layer(record_button = self._record_button)

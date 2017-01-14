@@ -64,7 +64,7 @@ class AlesisVI49ControlSurface(ControlSurface):
         self._transport.layer = Layer(
             play_button = self._play_button,
             stop_button = self._stop_button,
-            loop_button = self._loop_button,
+            tap_tempo_button = self._loop_button,
             seek_forward_button = self._forward_button,
             seek_backward_button = self._backward_button)
         self._session_record = SessionRecordingComponentEx()
