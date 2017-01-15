@@ -70,7 +70,6 @@ class TwisterControlSurface(ControlSurface):
 
     def _setup_device(self):
         self._device = DeviceComponentEx()
-        self._device.log = self.log_message
         self.set_device_component(self._device)
 
     def _setup_mixer(self):
