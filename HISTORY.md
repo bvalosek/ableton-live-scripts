@@ -1,5 +1,10 @@
 # Change History
 
+## v2.6.0 (2017-01-15)
+
+* MF Twister Return Select buttons can be pressed again to return to previous non-return track
+* MF Twister skinning improvements for non-armable tracks
+
 ## v2.5.0 (2017-01-14)
 
 * MPK249 and VI49 set to use Loop button as Tap Tempo
