@@ -14,17 +14,18 @@ class ChannelStripComponentEx(ChannelStripComponentExBase):
         super(ChannelStripComponentEx, self).__init__(*a, **k)
         self._mixer = mixer
 
-    def set_arm_button(self, button):
-        if button:
-            button.set_on_off_values('Mixer.ArmOn', 'Mixer.ArmOff')
-        super(ChannelStripComponentEx, self).set_arm_button(button)
-
     def update(self):
         if self._select_button:
             if self._track:
                 self._select_button.set_on_off_values('Mixer.TrackSelected', 'Mixer.Track')
             else:
                 self._select_button.set_on_off_values('Mixer.TrackSelected', 'Mixer.NoTrack')
+        if self._arm_button:
+            if self._track and self._track.can_be_armed:
+                self._arm_button.set_on_off_values('Mixer.ArmOn', 'Mixer.ArmOff')
+            else:
+                self._arm_button.set_on_off_values('Mixer.CantArm', 'Mixer.CantArm')
+
         super(ChannelStripComponentEx, self).update()
 
     def _select_value(self, value):

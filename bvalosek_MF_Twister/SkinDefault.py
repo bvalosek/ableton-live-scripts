@@ -18,10 +18,11 @@ class Colors:
         Off = ColorEx(Rgb.OFF, Brightness.OFF)
 
     class Mixer:
-        ArmOn = ColorEx(Rgb.RED, Animation.GATE_HALF_BEAT)
+        ArmOn = ColorEx(Rgb.RED, Animation.GATE_QUARTER_BEAT)
         ArmOff = ColorEx(Rgb.YELLOW)
+        CantArm = ColorEx(Rgb.PURPLE)
         Track = ColorEx(Rgb.ORANGE)
-        TrackSelected = ColorEx(Rgb.YELLOW, Animation.GATE_HALF_BEAT)
+        TrackSelected = ColorEx(Rgb.YELLOW, Animation.GATE_QUARTER_BEAT)
         NoTrack = ColorEx(Rgb.ORANGE, Brightness.LOW)
 
     class Metronome:
@@ -30,9 +31,9 @@ class Colors:
 
     class Device:
         On = ColorEx(Rgb.MINT)
-        Off = ColorEx(Rgb.RED, Animation.GATE_HALF_BEAT)
+        Off = ColorEx(Rgb.RED, Animation.GATE_QUARTER_BEAT)
         NotLocked = ColorEx(Rgb.TEAL)
-        Locked = ColorEx(Rgb.FUCHSIA, Animation.GATE_HALF_BEAT)
+        Locked = ColorEx(Rgb.FUCHSIA, Animation.GATE_QUARTER_BEAT)
         CanBank = ColorEx(Rgb.TEAL)
         CantBank = ColorEx(Rgb.TEAL, Brightness.LOW)
         ActiveBank = ColorEx(Rgb.FUCHSIA)
