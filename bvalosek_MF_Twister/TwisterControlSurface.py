@@ -154,12 +154,10 @@ class TwisterControlSurface(ControlSurface):
 
     def _setup_mixer_mode(self):
         strip_layer = Layer(
-            volume_control = self._knobs.get_button(3, 0),
-            arm_button = self._buttons.get_button(3, 0),
-            send_controls = self._knobs.submatrix[:, 2:])
+            send_controls = self._knobs.submatrix[:, :2])
 
         mixer_layer = Layer(
-            return_track_select_buttons = self._buttons.submatrix[:, 2:])
+            return_track_select_buttons = self._buttons.submatrix[:, :2])
 
         strip_mode = LayerMode(self._strip, strip_layer)
         mixer_mode = LayerMode(self._mixer, mixer_layer)

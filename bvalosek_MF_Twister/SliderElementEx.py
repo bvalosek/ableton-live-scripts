@@ -11,5 +11,5 @@ class SliderElementEx(SliderElement):
     def release_parameter(self, *a, **k):
         super(SliderElementEx, self).release_parameter(*a, **k)
         self.send_value(0, force = True)
-        self.send_value(66, channel = KNOB_ANIMATION_CHANNEL, force = True)
+        self.send_value(65, channel = KNOB_ANIMATION_CHANNEL, force = True)
 
