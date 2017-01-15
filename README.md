@@ -61,6 +61,7 @@ Detailed information about each controller's customization
 
 Compatible with factory preset `1 LiveLite`.
 
+* Mappings only for Bank A
 * Faders 1-8 control track volume for tracks 1-8
 * Buttons 1-8 select and arm tracks 1-8
 * Transport functions as described in "Common Transport" below
