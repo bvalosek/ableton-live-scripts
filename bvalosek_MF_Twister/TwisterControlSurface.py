@@ -36,6 +36,7 @@ class TwisterControlSurface(ControlSurface):
             self._setup_background()
             self._setup_device()
             self._setup_mixer()
+            self._setup_metronome()
             self._setup_modes()
             self._handle_track_change()
 
@@ -62,6 +63,9 @@ class TwisterControlSurface(ControlSurface):
     def _setup_device(self):
         self._device = DeviceComponentEx()
         self.set_device_component(self._device)
+
+    def _setup_metronome(self):
+        self._metronome = MetronomeComponent()
 
     def _setup_mixer(self):
         self._strip = ChannelStripComponentEx()
@@ -113,7 +117,6 @@ class TwisterControlSurface(ControlSurface):
             parameter_controls = self._knobs.submatrix[:, 2:],
             lock_button = self._buttons.get_button(2, 3))
 
-        metronome = MetronomeComponent()
         metronome_layer = Layer(lights = self._buttons.submatrix[:, 2])
 
         device_bg = BackgroundComponent(color = 'Device.Background')
@@ -123,7 +126,7 @@ class TwisterControlSurface(ControlSurface):
         self._modes.add_mode('main_mode', [
             LayerMode(self._strip, strip_layer),
             LayerMode(self._mixer, mixer_layer),
-            LayerMode(metronome, metronome_layer),
+            LayerMode(self._metronome, metronome_layer),
             LayerMode(device_bg, device_bg_layer),
             LayerMode(self._device, device_layer) ])
 
@@ -131,14 +134,17 @@ class TwisterControlSurface(ControlSurface):
         device_layer = Layer(
             parameter_controls = self._knobs,
             on_off_button = self._buttons.get_button(3, 3),
-            bank_buttons = self._buttons.submatrix[:, 2],
+            bank_buttons = self._buttons.submatrix[:, 1],
             lock_button = self._buttons.get_button(2, 3))
 
         device_bg = BackgroundComponent(color = 'Device.Background')
         device_bg_layer = Layer(priority = -10, lights = self._buttons)
 
+        metronome_layer = Layer(lights = self._buttons.submatrix[:, 2])
+
         self._modes.add_mode('sixteen_param_mode', [
             LayerMode(device_bg, device_bg_layer),
+            LayerMode(self._metronome, metronome_layer),
             LayerMode(self._device, device_layer) ])
 
     def _setup_mixer_mode(self):

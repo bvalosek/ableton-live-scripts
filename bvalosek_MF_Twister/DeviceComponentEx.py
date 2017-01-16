@@ -38,8 +38,9 @@ class DeviceComponentEx(DeviceComponent):
         Augment this method to pad the bank buttons out so we can skip in
         increments of 16 instead of 8
         """
-        padded_buttons = [ x for list in [ [ b, None ] for b in buttons or [] ] for x in list ]
-        super(DeviceComponentEx, self).set_bank_buttons(padded_buttons)
+        if buttons:
+            buttons = [ x for list in [ [ b, None ] for b in buttons or [] ] for x in list ]
+        super(DeviceComponentEx, self).set_bank_buttons(buttons)
 
     def update(self):
         bank_count = self._big_bank_count()
