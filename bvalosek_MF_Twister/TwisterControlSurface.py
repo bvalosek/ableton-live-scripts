@@ -140,10 +140,8 @@ class TwisterControlSurface(ControlSurface):
         device_layer = Layer(
             parameter_controls = self._knobs,
             on_off_button = self._buttons.get_button(3, 3),
-            bank_buttons = self._buttons.submatrix[:3, 2:],
-            bank_prev_button = self._buttons.get_button(1, 1),
-            bank_next_button = self._buttons.get_button(2, 1),
-            lock_button = self._buttons.get_button(3, 2))
+            bank_buttons = self._buttons.submatrix[:, 2],
+            lock_button = self._buttons.get_button(2, 3))
 
         device_bg = BackgroundComponent(color = 'Device.Background')
         device_bg_layer = Layer(priority = -10, lights = self._buttons)

@@ -5,12 +5,14 @@ from consts import *
 class Rgb:
     OFF = 0
     BLUE = 1
+    AZURE = 10
     TEAL = 20
     MINT = 40
     GREEN = 52
     YELLOW = 61
     ORANGE = 68
     RED = 85
+    PINK_RED = 93
     PINK = 100
     FUCHSIA = 111
     PURPLE = 115
