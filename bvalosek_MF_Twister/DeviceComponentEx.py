@@ -53,6 +53,10 @@ class DeviceComponentEx(DeviceComponent):
 
     @subject_slot_group('value')
     def _on_bank_value(self, value, button):
+        """
+        Override this method to nop if a bank button outside of the "big bank"
+        range is pressed
+        """
         if value and button:
             bank_count = self._big_bank_count()
             buttons = self._real_bank_buttons()
