@@ -53,15 +53,6 @@ class TwisterControlSurface(ControlSurface):
         if not track or not len(track.devices):
             return
         device = track.devices[0]
-
-        # if its a drum rack without macros, try to set the device to chain
-        # instead in order to have the focus be on the selected / last played
-        # pad's chain
-        rack = device.can_have_drum_pads
-        if rack and not device.has_macro_mappings and len(device.chains) > 0:
-            chain = device.view.selected_chain or device.chains[0]
-            if len(chain.devices):
-                device = chain.devices[0]
         self._device.set_device(device)
 
     def _setup_background(self):
