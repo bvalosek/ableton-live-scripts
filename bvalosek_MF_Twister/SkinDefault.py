@@ -40,6 +40,8 @@ class Colors:
         InactiveBank = ColorEx(Rgb.FUCHSIA)
         NoBank = ColorEx(Rgb.BLUE)
         Background = ColorEx(Rgb.BLUE)
+        OffsetDisabled = ColorEx(Rgb.BLUE)
+        OffsetEnabled = ColorEx(Rgb.ORANGE)
 
 def make_default_skin():
     return Skin(Colors)

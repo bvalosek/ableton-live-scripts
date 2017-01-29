@@ -1,5 +1,5 @@
 from _Framework.DeviceComponent import DeviceComponent
-from _Framework.SubjectSlot import subject_slot_group
+from _Framework.SubjectSlot import subject_slot_group, subject_slot
 
 import math
 
@@ -7,11 +7,13 @@ from Colors import *
 
 class DeviceComponentEx(DeviceComponent):
     """
-    Extended DeviceComponent that allows for more than 8 parameters to be
-    mapped at once, as well as skinning.
-
-    Extra param controls will be mapped to the next bank
+    Extended DeviceComponent for the MF Twister
     """
+
+    def __init__(self, *a, **k):
+        super(DeviceComponentEx, self).__init__(*a, **k)
+        self._param_offset_button = None
+        self._param_offset = False
 
     def set_lock_button(self, button):
         if button:
@@ -33,67 +35,37 @@ class DeviceComponentEx(DeviceComponent):
             button.set_on_off_values('Device.On', 'Device.Off')
         super(DeviceComponentEx, self).set_on_off_button(button)
 
-    def set_bank_buttons(self, buttons):
+    def set_param_offset_button(self, button):
         """
-        Augment this method to pad the bank buttons out so we can skip in
-        increments of 16 instead of 8
+        Param offset button can be used to toggle a 4-button offset in the
+        mapped params
         """
-        if buttons:
-            buttons = [ x for list in [ [ b, None ] for b in buttons or [] ] for x in list ]
-        super(DeviceComponentEx, self).set_bank_buttons(buttons)
+        if button:
+            button.set_on_off_values('Device.OffsetEnabled', 'Device.OffsetDisabled')
+        self._param_offset_button = button
+        self._param_offset_value.subject = button
+        self._update_param_offset_button()
+
+    def _update_param_offset_button(self):
+        if self._param_offset_button:
+            self._param_offset_button.set_light(self._param_offset)
+
+    @subject_slot('value')
+    def _param_offset_value(self, value):
+        if not self._param_offset_button.is_momentary() or value is not 0:
+            self._param_offset = not self._param_offset
+            self.update()
 
     def update(self):
-        bank_count = self._big_bank_count()
-        buttons = self._real_bank_buttons()
-        for (idx, button) in enumerate(buttons):
-            if idx < bank_count:
-                button.set_on_off_values('Device.ActiveBank', 'Device.InactiveBank')
-            else:
-                button.set_on_off_values('Device.NoBank', 'Device.NoBank')
         super (DeviceComponentEx, self).update()
+        self._update_param_offset_button()
 
-    @subject_slot_group('value')
-    def _on_bank_value(self, value, button):
+    def _current_bank_details(self):
         """
-        Override this method to nop if a bank button outside of the "big bank"
-        range is pressed
+        Override default behavior to factor in param_offset
         """
-        if value and button:
-            bank_count = self._big_bank_count()
-            buttons = self._real_bank_buttons()
-            idx = buttons.index(button)
-            if idx >= bank_count:
-                return
-        super(DeviceComponentEx, self)._on_bank_value(value, button)
-
-    def _assign_parameters(self):
-        """
-        Augment normal assign behavior to also assign the next bank to the
-        bottom 8 of the param controls
-        """
-        super(DeviceComponentEx, self)._assign_parameters()
-        if len(self._parameter_controls) > 8:
-            next_bank = self._get_next_bank()
-            for control, parameter in zip(self._parameter_controls[8:16], next_bank):
-                if control and parameter:
-                    control.connect_to(parameter)
-                else:
-                    control.release_parameter()
-
-    def _real_bank_buttons(self):
-        """ List of the actual bank buttons, filtering out the None padding """
-        return [ b for b in self._bank_buttons or [] if b ]
-
-    def _big_bank_count(self):
-        """ Bank count when factoring 16 params """
-        return math.ceil(len(self._parameter_banks()) / 2.0)
-
-    def _get_next_bank(self):
-        bank = []
-        banks = self._parameter_banks()
-        if banks and self._bank_index != None:
-            next_index = self._bank_index + 1
-            if len(banks) > next_index:
-                bank = banks[next_index]
-        return bank
+        bank_name, bank = super(DeviceComponentEx, self)._current_bank_details()
+        if self._param_offset:
+            bank = bank[4:] + [ None ] * 4
+        return (bank_name, bank)
 
