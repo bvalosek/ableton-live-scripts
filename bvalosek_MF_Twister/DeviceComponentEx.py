@@ -10,10 +10,11 @@ class DeviceComponentEx(DeviceComponent):
     Extended DeviceComponent for the MF Twister
     """
 
-    def __init__(self, *a, **k):
+    def __init__(self, adhoc_mode = False, *a, **k):
         super(DeviceComponentEx, self).__init__(*a, **k)
         self._param_offset_button = None
         self._param_offset = False
+        self._adhoc_mode = adhoc_mode
 
     def set_param_offset_button(self, button):
         """ Button to toggle a 4-button offset in the mapped params """
@@ -47,15 +48,15 @@ class DeviceComponentEx(DeviceComponent):
 
     def _update_param_controls(self):
         for c in self._parameter_controls or []:
-            if self._locked_to_device or not self._param_offset_button:
+            if self._locked_to_device or not self._adhoc_mode:
                 c.send_value(95, channel = KNOB_ANIMATION_CHANNEL, force = True)
             else:
-                c.send_value(69, channel = KNOB_ANIMATION_CHANNEL, force = True)
+                c.send_value(65, channel = KNOB_ANIMATION_CHANNEL, force = True)
 
     def _update_param_offset_button(self):
         button = self._param_offset_button
         if not button: return
-        if self._locked_to_device:
+        if self._locked_to_device or not self._adhoc_mode:
             button.set_on_off_values('Device.OffsetEnabled', 'Device.OffsetDisabled')
         else:
             button.set_on_off_values('DefaultButton.Off', 'DefaultButton.Off')
@@ -64,7 +65,7 @@ class DeviceComponentEx(DeviceComponent):
     def _update_on_off_button(self):
         button = self._on_off_button
         if button:
-            if self._locked_to_device:
+            if self._locked_to_device or not self._adhoc_mode:
                 button.set_on_off_values('Device.On', 'Device.Off')
             else:
                 button.set_on_off_values('DefaultButton.Off', 'DefaultButton.Off')

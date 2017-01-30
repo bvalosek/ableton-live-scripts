@@ -63,7 +63,7 @@ class TwisterControlSurface(ControlSurface):
     def _setup_device(self):
         self._device = DeviceComponentEx()
         self.set_device_component(self._device)
-        self._adhoc_devices = [ DeviceComponentEx() for n in range(4) ]
+        self._adhoc_devices = [ DeviceComponentEx(adhoc_mode = True) for n in range(4) ]
         for device in self._adhoc_devices:
             device.set_lock_callback(lambda device = device: self._lock_device(device))
 
@@ -114,7 +114,7 @@ class TwisterControlSurface(ControlSurface):
         self._modes.layer = Layer(priority = 10,
             adhoc_mode_button = self._buttons.get_button(3, 0),
             main_mode_button = self._buttons.get_button(3, 1))
-        self._modes.selected_mode = 'main_mode'
+        self._modes.selected_mode = 'adhoc_mode'
 
     def _setup_adhoc_mode(self):
         device_layers = [ Layer(
@@ -129,12 +129,12 @@ class TwisterControlSurface(ControlSurface):
 
     def _setup_main_mode(self):
         strip_layer = Layer(
-            volume_control = self._knobs.get_button(3, 0),
-            arm_button = self._buttons.get_button(3, 0),
-            send_controls = self._knobs.submatrix[:, 1])
+            volume_control = self._knobs.get_button(2, 0),
+            arm_button = self._buttons.get_button(2, 0),
+            send_controls = self._knobs.submatrix[:3, 1])
         mixer_layer = Layer(
-            prehear_volume_control = self._knobs.get_button(0, 0),
-            return_track_select_buttons = self._buttons.submatrix[:, 1])
+            prehear_volume_control = self._knobs.get_button(3, 0),
+            return_track_select_buttons = self._buttons.submatrix[:3, 1])
         device_layer = Layer(
             on_off_button = self._buttons.get_button(3, 3),
             parameter_controls = self._knobs.submatrix[:, 2:],
