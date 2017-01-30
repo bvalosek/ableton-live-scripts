@@ -65,7 +65,7 @@ class DeviceComponentEx(DeviceComponent):
         Override default behavior to factor in param_offset
         """
         bank_name, bank = super(DeviceComponentEx, self)._current_bank_details()
-        if self._param_offset:
-            bank = bank[4:] + [ None ] * 4
+        if bank and len(bank) > 4 and self._param_offset:
+            bank = bank[4:]
         return (bank_name, bank)
 
