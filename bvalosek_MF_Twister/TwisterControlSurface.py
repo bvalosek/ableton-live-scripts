@@ -69,7 +69,7 @@ class TwisterControlSurface(ControlSurface):
 
     def _lock_device(self, device):
         focused = self.song().appointed_device
-        current = device._device
+        if not focused: return
         locked = device._locked_to_device
 
         if not locked:
@@ -112,16 +112,16 @@ class TwisterControlSurface(ControlSurface):
         self._setup_main_mode()
         self._setup_adhoc_mode()
         self._modes.layer = Layer(priority = 10,
-            adhoc_mode_button = self._buttons.get_button(0, 0),
-            main_mode_button = self._buttons.get_button(1, 0))
-        self._modes.selected_mode = 'adhoc_mode'
+            adhoc_mode_button = self._buttons.get_button(3, 0),
+            main_mode_button = self._buttons.get_button(3, 1))
+        self._modes.selected_mode = 'main_mode'
 
     def _setup_adhoc_mode(self):
         device_layers = [ Layer(
-            lock_button = self._buttons.get_button(n, 3),
-            on_off_button = self._buttons.get_button(n, 2),
-            param_offset_button = self._buttons.get_button(n, 1),
-            parameter_controls = self._knobs.submatrix[n, 3::-1]) for n in range(4) ]
+            lock_button = self._buttons.get_button(0, n),
+            on_off_button = self._buttons.get_button(1, n),
+            param_offset_button = self._buttons.get_button(2, n),
+            parameter_controls = self._knobs.submatrix[:, n]) for n in range(4) ]
 
         self._modes.add_mode('adhoc_mode', [
             lambda: self.show_message('Switched to ad-hoc device mode') ] + [
