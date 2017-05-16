@@ -63,7 +63,10 @@ Detailed information about each controller's customization
 
 ### DJ TechTools Midi Fighter Twister
 
-> Still in development
+> Make sure to update your Twister to the latest firmware via the [Midi Fighter
+> Utility
+> app](https://store.djtechtools.com/products/midi-fighter-twister#downloads_and_support)
+> from DJ Tech Tools
 
 ## License
 
