@@ -14,12 +14,7 @@ class Colors:
         Off = ColorEx(Rgb.OFF, Brightness.OFF)
 
     class Device:
-        Menu = ColorEx(Rgb.BLUE, Animation.GATE_1_BEAT)
-        MenuSelect = ColorEx(Rgb.TEAL)
-        Select = ColorEx(Rgb.ORANGE)
-        On = ColorEx(Rgb.GREEN)
-        Off = ColorEx(Rgb.RED, Animation.GATE_HALF_BEAT)
-        Unlock = ColorEx(Rgb.PURPLE, Animation.GATE_HALF_BEAT)
+        NoDevice = ColorEx(Rgb.AZURE, Brightness.LOW)
 
 def make_default_skin():
     return Skin(Colors)
