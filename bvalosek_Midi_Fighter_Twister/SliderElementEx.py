@@ -3,6 +3,10 @@ from _Framework.SliderElement import SliderElement
 from consts import *
 
 class SliderElementEx(SliderElement):
+    """
+    A special SliderElement that handles setting the animation and brightness
+    of the encoder rings when connecting / disconnecting
+    """
 
     def connect_to(self, param):
         super(SliderElementEx, self).connect_to(param)
