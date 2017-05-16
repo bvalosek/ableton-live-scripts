@@ -75,6 +75,7 @@ class TwisterControlSurface(ControlSurface):
             buttons = self._buttons.submatrix[:, n + 1]
         ) for n in range (3) ]
 
-        self._modes.add_mode(mode_name, [ msg ] +
-            [ LayerMode(devices[n], layers[n]) for n in range(3) ])
+        modes = [ LayerMode(devices[n], layers[n]) for n in range(3) ]
+
+        self._modes.add_mode(mode_name, modes + [ msg ])
 
