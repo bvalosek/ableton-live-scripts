@@ -1,5 +1,7 @@
 from _Framework.ControlSurfaceComponent import ControlSurfaceComponent
 
+from consts import *
+
 class BackgroundComponent(ControlSurfaceComponent):
     """
     A nop component that we just clear everything. Set to a low-priority layer
@@ -19,3 +21,4 @@ class BackgroundComponent(ControlSurfaceComponent):
         for knob in knobs or []:
             if knob:
                 knob.send_value(0, force = True)
+                knob.send_value(65, channel = KNOB_ANIMATION_CHANNEL, force = True)

@@ -7,6 +7,8 @@ from _Framework.ModesComponent import LayerMode
 from consts import *
 from Colors import *
 
+from DeviceComponentEx import DeviceComponentEx
+
 from BackgroundComponent import BackgroundComponent
 from ButtonElementEx import ButtonElementEx
 from ModesComponentEx import ModesComponentEx
@@ -62,7 +64,17 @@ class TwisterControlSurface(ControlSurface):
 
     def _create_page(self, index):
         page_num = index + 1
-        msg = lambda: self.show_message("Switched to page {}".format(page_num))
         mode_name = "page{}_mode".format(page_num)
-        self._modes.add_mode(mode_name, [ msg ])
+        msg = lambda: self.show_message("Switched to page {}".format(page_num))
+
+        devices = [ DeviceComponentEx() for n in range(3) ]
+        for d in devices: d.log = self.log_message
+
+        layers = [ Layer(
+            knobs = self._knobs.submatrix[:, n + 1],
+            buttons = self._buttons.submatrix[:, n + 1]
+        ) for n in range (3) ]
+
+        self._modes.add_mode(mode_name, [ msg ] +
+            [ LayerMode(devices[n], layers[n]) for n in range(3) ])
 
