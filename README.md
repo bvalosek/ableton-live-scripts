@@ -1,14 +1,18 @@
 # MIDI Remote Scripts for Ableton Live 9
 
-My personal MIDI Remote Scripts for Ableton 9.
+My personal MIDI Remote Scripts for Ableton 9 (tested on Ableton Live Suite
+9.7.2)
 
-> Tested on Ableton Live Suite 9.7.1
+> I frequently iterate on this repo as my gear / setup changes. See the [v2
+> iteration circa early
+> 2017](https://github.com/bvalosek/ableton-live-scripts/tree/v2.6.0) or the
+> [v1 iteration circa
+> 2015](https://github.com/bvalosek/ableton-live-scripts/tree/v1.0.0) for
+> previous incarnations of my custom scripts
 
 ## Devices
 
-* Akai MPK249 Keyboard
-* Alesis VI 49 Keyboard
-* DJ TechTools MIDI Fighter Twister
+* DJ TechTools Midi Fighter Twister
 
 ## Installation
 
@@ -42,7 +46,7 @@ sections for the corresponding controllers you are using.
 
 For example, for the DJTT MIDI Fighter Twister:
 
-* Select `bvalosek MF Twister` for the Control Surface
+* Select `bvalosek Midi Fighter Twister` for the Control Surface
 * Select `Midi Fighter Twister` for the input
 * Select `Midi Fighter Twister` for the output
 
@@ -57,56 +61,11 @@ depending on how you're using your hardware.
 
 Detailed information about each controller's customization
 
-### Akai MPK249
-
-Compatible with factory preset `1 LiveLite`.
-
-* Mappings only for Bank A
-* Faders 1-8 control track volume for tracks 1-8
-* Buttons 1-8 select and arm tracks 1-8
-* Transport functions as described in "Common Transport" below
-
-### Alesis VI 49 Keyboard
-
-* Knobs 1-8 control the currently selected device
-* Knobs 9-12 control the first four sends of the selected track
-* Transport functions as described in "Common Transport" below
-
-Consider adjusting the *Takeover Mode* in the Ableton Live Preference window to
-adjust how values are transitioned when the hardware knob is in a different
-position than the currently selected device
-
-#### MIDI Mapping
-
-This should just be the factory settings:
-
-> All on MIDI Channel 1
-
-* Knobs 1-12: CC 20-31
-* Switches 1-12: Toggle, CC 48-59
-* Switches 13-24: Toggle, CC 64-75
-* Switches 24-36: Toggle, CC 80-91
-* Transport: Momentary
-  * Record: CC 114
-  * Loop: CC 115
-  * Rewind: CC 116
-  * Fast Forward: CC 117
-  * Stop: CC 118
-  * Play: CC 119
-
-### DJ TechTools MIDI Fighter Twister
+### DJ TechTools Midi Fighter Twister
 
 > Still in development
 
-### Common Transport
-
-For devices with transport controls, these scripts set it up as follows:
-
-* Fast Forward, Rewind, Play, Stop all work as expected
-* Loop acts as the Tap Tempo Button
-* Record acts as a hybrid session record / new clip (like Launchpad Pro, Push, etc)
-
 ## License
 
-MIT
+[MIT](https://github.com/bvalosek/ableton-live-scripts/blob/master/LICENSE)
 

@@ -1,5 +1,9 @@
 # Change History
 
+## v3.0.0 (???)
+
+* Dropping everything but Midi Fighter Twister, starting a new approach
+
 ## v2.6.0 (2017-01-15)
 
 * MF Twister Return Select buttons can be pressed again to return to previous non-return track
