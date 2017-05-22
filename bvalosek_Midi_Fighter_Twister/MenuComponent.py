@@ -6,6 +6,10 @@ from Colors import *
 OFF_COLOR = ColorEx(Rgb.OFF, Brightness.OFF)
 
 class MenuComponent(ControlSurfaceComponent):
+    """
+    A component that allows for a set of buttons to be grabbed and trigger
+    callbacks when pressed
+    """
 
     def __init__(self, enable_lights = True, actions = None, *a, **k):
         super(MenuComponent, self).__init__(*a, **k)

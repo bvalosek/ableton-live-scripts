@@ -6,6 +6,9 @@ class BackgroundComponent(ControlSurfaceComponent):
     """
     A nop component that we just clear everything. Set to a low-priority layer
     so that anything not mapped will get grabbed and cleared
+
+    The buttons are not actually grabbed, just set_light / send_value push out
+    to them, so other layers can actually grab them
     """
 
     def __init__(self, raw = None, color = 'DefaultButton.Off', *a, **k):
@@ -33,7 +36,7 @@ class BackgroundComponent(ControlSurfaceComponent):
 
     def update(self):
         if self.is_enabled():
-            for index, light in enumerate(self._lights or []):
+            for index, light in enumerate(self._lights or [ ]):
                 if light:
                     if self._raw:
                         self._raw[index].draw(light)

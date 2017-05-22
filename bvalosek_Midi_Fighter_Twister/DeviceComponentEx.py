@@ -26,19 +26,26 @@ class DeviceComponentEx(CompoundComponent):
         super(DeviceComponentEx, self).__init__(*a, **k)
         self.log = log
 
-        # components
-        self._device = self.register_component(_DeviceComponent(log = log, is_enabled = False))
+        self._knobs = None
+        self._buttons = None
+
+        self._setup_components()
+        self._setup_background()
+        self._setup_modes()
+
+    def _setup_components(self):
+        self._device = self.register_component(_DeviceComponent(log = self.log, is_enabled = False))
         self._modes = self.register_component(ModesComponent())
         self._background = self.register_component(BackgroundComponent(color = 70, is_enabled = False))
 
-        tag = str(randint(0,100))
-
-        empty_actions = [ 
+        empty_actions = [
             ('Device.Lock', self._lock_device, None),
             (None, None, None),
             (None, None, None),
             (None, None, None) ]
-        self._empty = self.register_component(MenuComponent(actions = empty_actions, is_enabled = False))
+        self._empty = self.register_component(MenuComponent(
+            actions = empty_actions,
+            is_enabled = False))
 
         device_actions = [
             (None, None, None),
@@ -55,11 +62,15 @@ class DeviceComponentEx(CompoundComponent):
             (None, None, None),
             ('Device.Select', lambda: self._select_device(), None),
             (None, None, lambda: self._modes.pop_mode('menu')) ]
-        self._menu = self.register_component(MenuComponent(actions = menu_actions, is_enabled = False))
+        self._menu = self.register_component(MenuComponent(
+            actions = menu_actions,
+            is_enabled = False))
 
+    def _setup_background(self):
         color = randint(1, 127)
         self._background.set_raw([ ColorEx(color) for n in range(4) ])
 
+    def _setup_modes(self):
         self._modes.add_mode('empty', [ ComponentMode(self._empty) ])
         self._modes.add_mode('device', [
             ComponentMode(self._device_buttons),
@@ -68,10 +79,6 @@ class DeviceComponentEx(CompoundComponent):
         self._modes.add_mode('menu', [ ComponentMode(self._menu) ])
 
         self._modes.selected_mode = 'empty';
-
-        # controls
-        self._knobs = None
-        self._buttons = None
 
     def set_knobs(self, knobs):
         self._knobs = knobs
@@ -109,10 +116,8 @@ class DeviceComponentEx(CompoundComponent):
 
     def _check_device(self):
         d = self._device._device
-        if not liveobj_valid(d):
-            self._device.set_lock_to_device(False, None)
-            self._modes.pop_mode('menu')
-            self._modes.pop_mode('device')
-
-
+        if liveobj_valid(d): return
+        self._device.set_lock_to_device(False, None)
+        self._modes.pop_mode('menu')
+        self._modes.pop_mode('device')
 

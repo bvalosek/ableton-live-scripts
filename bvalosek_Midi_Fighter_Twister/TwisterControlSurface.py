@@ -7,10 +7,9 @@ from _Framework.ModesComponent import LayerMode
 from consts import *
 from Colors import *
 
-from DeviceComponentEx import DeviceComponentEx
-
 from BackgroundComponent import BackgroundComponent
 from ButtonElementEx import ButtonElementEx
+from DeviceComponentEx import DeviceComponentEx
 from ModesComponentEx import ModesComponentEx
 from SkinDefault import make_default_skin
 from SliderElementEx import SliderElementEx
@@ -71,8 +70,7 @@ class TwisterControlSurface(ControlSurface):
 
         layers = [ Layer(
             knobs = self._knobs.submatrix[:, n + 1],
-            buttons = self._buttons.submatrix[:, n + 1]
-        ) for n in range (3) ]
+            buttons = self._buttons.submatrix[:, n + 1]) for n in range (3) ]
 
         modes = [ LayerMode(devices[n], layers[n]) for n in range(3) ]
 
