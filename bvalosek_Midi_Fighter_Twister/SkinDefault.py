@@ -15,6 +15,8 @@ class Colors:
 
     class Device:
         NoDevice = ColorEx(Rgb.AZURE, Brightness.LOW)
+        LockButton = ColorEx(Rgb.BLUE, Brightness.MAX)
+        Focus = ColorEx(Rgb.RED, Brightness.MAX)
 
 def make_default_skin():
     return Skin(Colors)

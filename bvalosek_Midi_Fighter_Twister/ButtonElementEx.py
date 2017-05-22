@@ -22,6 +22,9 @@ class ButtonElementEx(ButtonElement):
         value = self.states.get(value, value)
         super(ButtonElementEx, self).set_light(value)
 
+    def send_color(self, color):
+        color.draw(self)
+
     def send_value(self, value, **k):
         if value is ON_VALUE:
             self.set_light(True)
