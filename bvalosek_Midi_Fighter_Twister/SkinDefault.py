@@ -14,7 +14,7 @@ class Colors:
         Off = ColorEx(Rgb.OFF, Brightness.OFF)
 
     class Device:
-        Lock = ColorEx(Rgb.BLUE, Animation.PULSE_2_BEATS)
+        Lock = ColorEx(Rgb.BLUE, Brightness.LOW)
 
         Unlock = ColorEx(Rgb.RED, Animation.GATE_HALF_BEAT)
         Select = ColorEx(Rgb.ORANGE, Animation.GATE_HALF_BEAT)

@@ -33,7 +33,11 @@ class DeviceComponentEx(CompoundComponent):
 
         tag = str(randint(0,100))
 
-        empty_actions = [ ('Device.Lock', self._lock_device, None) ]
+        empty_actions = [ 
+            ('Device.Lock', self._lock_device, None),
+            (None, None, None),
+            (None, None, None),
+            (None, None, None) ]
         self._empty = self.register_component(MenuComponent(actions = empty_actions, is_enabled = False))
 
         device_actions = [
