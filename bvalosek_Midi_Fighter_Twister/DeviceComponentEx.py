@@ -22,6 +22,8 @@ class DeviceComponentEx(CompoundComponent):
     Extended DeviceComponent for the Midi Fighter Twister
     """
 
+    next_color = 1
+
     def __init__(self, log = None, *a, **k):
         super(DeviceComponentEx, self).__init__(*a, **k)
         self.log = log
@@ -36,7 +38,7 @@ class DeviceComponentEx(CompoundComponent):
     def _setup_components(self):
         self._device = self.register_component(_DeviceComponent(log = self.log, is_enabled = False))
         self._modes = self.register_component(ModesComponent())
-        self._background = self.register_component(BackgroundComponent(color = 70, is_enabled = False))
+        self._background = self.register_component(BackgroundComponent(is_enabled = False))
 
         empty_actions = [
             ('Device.Lock', self._lock_device, None),
@@ -67,7 +69,8 @@ class DeviceComponentEx(CompoundComponent):
             is_enabled = False))
 
     def _setup_background(self):
-        color = randint(1, 127)
+        color = DeviceComponentEx.next_color
+        DeviceComponentEx.next_color = (color + 31) % 127
         self._background.set_raw([ ColorEx(color) for n in range(4) ])
 
     def _setup_modes(self):
