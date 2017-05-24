@@ -15,12 +15,13 @@ class Colors:
 
     class Device:
         Lock = ColorEx(Rgb.BLUE, Brightness.LOW)
+        LockOffset = ColorEx(Rgb.ORANGE, Brightness.LOW)
 
-        MenuActive = ColorEx(Rgb.PURPLE, Animation.GATE_QUARTER_BEAT)
         Unlock = ColorEx(Rgb.RED, Animation.GATE_HALF_BEAT)
         NormalParams = ColorEx(Rgb.BLUE, Animation.GATE_HALF_BEAT)
         OffsetParams = ColorEx(Rgb.ORANGE, Animation.GATE_QUARTER_BEAT)
         Select = ColorEx(Rgb.TEAL, Animation.GATE_HALF_BEAT)
+        MenuActive = ColorEx(Rgb.PURPLE, Animation.GATE_QUARTER_BEAT)
 
 def make_default_skin():
     return Skin(Colors)

@@ -57,7 +57,7 @@ class DeviceComponentEx(CompoundComponent):
 
         empty_actions = [
             ('Device.Lock', self._lock_device, None),
-            (None, None, None),
+            ('Device.LockOffset', lambda: self._lock_device(True), None),
             (None, None, None),
             (None, None, None) ]
         self._empty = self.register_component(MenuComponent(
@@ -118,13 +118,18 @@ class DeviceComponentEx(CompoundComponent):
 
     def _toggle_param_offset(self):
         self._device.toggle_param_offset()
+        self._update_menu_actions()
+
+    def _update_menu_actions(self):
         pcolor = 'Device.NormalParams' if not self._device._param_offset else 'Device.OffsetParams'
         self._menu.update_action(1, (pcolor, self._toggle_param_offset, None))
 
-    def _lock_device(self):
+    def _lock_device(self, offset = False):
         focused = self.song().appointed_device
+        self._device.set_param_offset(offset)
         self._device.set_lock_to_device(True, focused)
         self._modes.push_mode('device')
+        self._update_menu_actions()
         self.update()
 
     def _unlock_device(self):
