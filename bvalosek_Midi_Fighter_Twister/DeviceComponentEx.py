@@ -16,6 +16,21 @@ class _DeviceComponent(DeviceComponent):
     def __init__(self, log = None, *a, **k):
         super(_DeviceComponent, self).__init__(*a, **k)
         self.log = log
+        self._param_offset = False
+
+    def set_param_offset(self, value):
+        self._param_offset = value
+        self.update()
+
+    def toggle_param_offset(self):
+        self.set_param_offset(not self._param_offset)
+
+    def _current_bank_details(self):
+        """ Override default behavior to factor in param_offset """
+        bank_name, bank = super(_DeviceComponent, self)._current_bank_details()
+        if bank and len(bank) > 4 and self._param_offset:
+            bank = bank[4:]
+        return (bank_name, bank)
 
 class DeviceComponentEx(CompoundComponent):
     """
@@ -61,7 +76,7 @@ class DeviceComponentEx(CompoundComponent):
 
         menu_actions = [
             ('Device.Unlock', lambda: self._unlock_device(), None),
-            (None, None, None),
+            ('Device.NormalParams', lambda: self._toggle_param_offset(), None),
             ('Device.Select', lambda: self._select_device(), None),
             (None, None, lambda: self._modes.pop_mode('menu')) ]
         self._menu = self.register_component(MenuComponent(
@@ -101,6 +116,11 @@ class DeviceComponentEx(CompoundComponent):
         super(DeviceComponentEx, self).update()
         self._check_device()
 
+    def _toggle_param_offset(self):
+        self._device.toggle_param_offset()
+        pcolor = 'Device.NormalParams' if not self._device._param_offset else 'Device.OffsetParams'
+        self._menu.update_action(1, (pcolor, self._toggle_param_offset, None))
+
     def _lock_device(self):
         focused = self.song().appointed_device
         self._device.set_lock_to_device(True, focused)
@@ -111,6 +131,7 @@ class DeviceComponentEx(CompoundComponent):
         self._device.set_lock_to_device(False, None)
         self._modes.pop_mode('device')
         self._modes.pop_mode('menu')
+        self._device.set_param_offset(False)
         self.update()
 
     def _select_device(self):

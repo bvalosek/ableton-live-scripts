@@ -25,6 +25,10 @@ class MenuComponent(ControlSurfaceComponent):
     def on_enabled_changed(self):
         self.update()
 
+    def update_action(self, index, action):
+        self._actions[index] = action
+        self.update()
+
     @subject_slot_group('value')
     def _on_button(self, value, button):
         idx = [b for b in self._buttons].index(button)
