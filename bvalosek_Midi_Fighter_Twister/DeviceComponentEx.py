@@ -78,7 +78,7 @@ class DeviceComponentEx(CompoundComponent):
             ('Device.Unlock', lambda: self._unlock_device(), None),
             ('Device.NormalParams', lambda: self._toggle_param_offset(), None),
             ('Device.Select', lambda: self._select_device(), None),
-            (None, None, lambda: self._modes.pop_mode('menu')) ]
+            ('Device.MenuActive', None, lambda: self._modes.pop_mode('menu')) ]
         self._menu = self.register_component(MenuComponent(
             actions = menu_actions,
             is_enabled = False))

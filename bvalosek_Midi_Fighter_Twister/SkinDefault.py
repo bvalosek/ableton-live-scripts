@@ -16,6 +16,7 @@ class Colors:
     class Device:
         Lock = ColorEx(Rgb.BLUE, Brightness.LOW)
 
+        MenuActive = ColorEx(Rgb.PURPLE, Animation.GATE_QUARTER_BEAT)
         Unlock = ColorEx(Rgb.RED, Animation.GATE_HALF_BEAT)
         NormalParams = ColorEx(Rgb.BLUE, Animation.GATE_HALF_BEAT)
         OffsetParams = ColorEx(Rgb.ORANGE, Animation.GATE_QUARTER_BEAT)
