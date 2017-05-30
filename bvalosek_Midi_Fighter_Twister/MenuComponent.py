@@ -29,6 +29,10 @@ class MenuComponent(ControlSurfaceComponent):
         self._actions[index] = action
         self.update()
 
+    def update_action_color(self, index, color):
+        self._actions[index][0] = color
+        self.update()
+
     @subject_slot_group('value')
     def _on_button(self, value, button):
         idx = [b for b in self._buttons].index(button)
@@ -44,10 +48,11 @@ class MenuComponent(ControlSurfaceComponent):
             self._on_button.replace_subjects(self._buttons or [ ])
             if self._enable_lights:
                 for action, button in zip(self._actions or [ ], self._buttons or [ ]):
-                    color, _, _ = action
-                    if color:
-                        button.set_light(color)
-                    else:
-                        OFF_COLOR.draw(button)
+                    if button:
+                        color, _, _ = action
+                        if color:
+                            button.set_light(color)
+                        else:
+                            OFF_COLOR.draw(button)
         else:
             self._on_button.replace_subjects([ ])

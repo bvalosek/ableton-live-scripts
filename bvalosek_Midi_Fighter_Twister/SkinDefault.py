@@ -23,6 +23,10 @@ class Colors:
         Select = ColorEx(Rgb.TEAL, Animation.GATE_HALF_BEAT)
         MenuActive = ColorEx(Rgb.PURPLE, Animation.GATE_QUARTER_BEAT)
 
+        HalfSnap = ColorEx(Rgb.BLUE, Animation.GATE_HALF_BEAT)
+        ReverseHalfSnap = ColorEx(Rgb.GREEN, Animation.GATE_HALF_BEAT)
+        FullSnap = ColorEx(Rgb.PURPLE, Animation.GATE_HALF_BEAT)
+
 def make_default_skin():
     return Skin(Colors)
 

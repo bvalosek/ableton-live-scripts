@@ -66,7 +66,10 @@ class TwisterControlSurface(ControlSurface):
         mode_name = "page{}_mode".format(page_num)
         msg = lambda: self.show_message("Switched to page {}".format(page_num))
 
-        devices = [ DeviceComponentEx(log = self.log_message) for n in range(3) ]
+        devices = [ DeviceComponentEx(
+            schedule_message = self.schedule_message,
+            top_buttons = self._buttons.submatrix[:, 0],
+            log = self.log_message) for n in range(3) ]
 
         layers = [ Layer(
             knobs = self._knobs.submatrix[:, n + 1],
